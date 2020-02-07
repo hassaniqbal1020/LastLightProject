@@ -347,7 +347,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   attackDamage: 40
-  pRef: {fileID: 884944136}
 --- !u!60 &86922322
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -4463,6 +4462,7 @@ GameObject:
   - component: {fileID: 884944146}
   - component: {fileID: 884944145}
   - component: {fileID: 884944147}
+  - component: {fileID: 884944148}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -4725,6 +4725,18 @@ MonoBehaviour:
   Active: 0
   LAnim: {fileID: 708027621}
   LifeState: 
+--- !u!114 &884944148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 884944136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9565771e1773a974ea7ae1eaf22aa4c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &898011336
 GameObject:
   m_ObjectHideFlags: 0
