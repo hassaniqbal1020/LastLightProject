@@ -16,6 +16,7 @@ public class LifeForce : MonoBehaviour
 
     public Animator LAnim;
 
+    public string LifeState;
 
     // Start is called before the first frame update
     void Start()
@@ -24,7 +25,8 @@ public class LifeForce : MonoBehaviour
         Lforce.maxValue = maxLife;
         Lforce.value = maxLife;
         currentLife = maxLife;
-        waitTime = 1.5f;
+        waitTime = 3f;
+        LifeState = "Active";
 
     }
 
@@ -34,11 +36,25 @@ public class LifeForce : MonoBehaviour
 
         currentLife = Lforce.value;
 
-        if (Input.GetButtonDown("Xbox_B"))
+        if (Input.GetButtonDown("Xbox_B") && LifeState == "Active")
         {
-            Lforce.value -= maxLife * 0.1f;
             waitTime = 3f;
-            LAnim.SetTrigger("Used");
+
+            if (gameObject.GetComponent<PlayerMovement>().InventoryNumber == 2)
+            {
+                if (gameObject.GetComponentInChildren<Shoot>().shootMetre > 0)
+                {
+                    Lforce.value -= maxLife * 0.25f;
+                    LAnim.SetTrigger("Used");
+                }
+
+            }else if(gameObject.GetComponent<PlayerMovement>().InventoryNumber == 1)
+            {
+                Lforce.value -= maxLife * 0.08f;
+                LAnim.SetTrigger("Used");
+            }
+            
+            
 
         }
 
@@ -52,11 +68,23 @@ public class LifeForce : MonoBehaviour
             StartCoroutine(Regen());
         }
 
-        if(Lforce.value == maxLife)
+        if(Lforce.value <= 0)
         {
-            waitTime = 3f;
+            LifeState = "inActive";
+
         }
 
+        if(Lforce.value >= maxLife)
+        {
+            waitTime = 3f;
+
+            if(LifeState == "inActive")
+            {
+                LifeState = "Active";
+            }
+            
+
+        }
     }
 
     IEnumerator Regen()

@@ -11,14 +11,14 @@ public class PlayerAttack : MonoBehaviour
     public LayerMask enemyLayers;
 
     public int attackDamage = 40;
-    public GameObject pRef;
+    //public GameObject pRef;
 
 
     // Update is called once per frame
     void Update()
     {
 
-        if (Input.GetButtonDown("Xbox_B") && pRef.GetComponent<LifeForce>().currentLife > 0)
+        if (Input.GetButtonDown("Xbox_B") && gameObject.GetComponentInParent<LifeForce>().currentLife > 0 && gameObject.GetComponentInParent<LifeForce>().LifeState == "Active")
         {
             Attack();
 
