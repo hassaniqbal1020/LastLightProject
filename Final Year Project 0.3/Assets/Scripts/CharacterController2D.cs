@@ -3,14 +3,12 @@ using UnityEngine.Events;
 
 public class CharacterController2D : MonoBehaviour
 {
-	public float JumpForce = 400f;							
-	[Range(0, 1)] public float CrouchSpeed = .36f;			
+	public float JumpForce = 400f;										
 	[Range(0, .3f)] public float MovementSmoothing = .05f;	
 	public bool AirControl = false;							
 	public LayerMask WhatIsGround;							
 	public Transform GroundCheck;							
-	public Transform CeilingCheck;							
-	public Collider2D CrouchDisableCollider;				
+	public Transform CeilingCheck;										
 
 	const float GroundedRadius = .2f; 
 	private bool Grounded;            
@@ -18,8 +16,6 @@ public class CharacterController2D : MonoBehaviour
 	private Rigidbody2D Rigidbody2D;
 	private bool FacingRight = true;  
 	private Vector3 Velocity = Vector3.zero;
-
-	private bool wasCrouching = false;
 
     //public Animator jumpAnim;
 
@@ -69,49 +65,12 @@ public class CharacterController2D : MonoBehaviour
 	}
 
 
-	public void Move(float move, bool crouch, bool jump)
+	public void Move(float move, bool jump)
 	{
-		// If crouching, check to see if the character can stand up
-		if (!crouch)
-		{
-			// If the character has a ceiling preventing them from standing up, keep them crouching
-			if (Physics2D.OverlapCircle(CeilingCheck.position, CeilingRadius, WhatIsGround))
-			{
-				crouch = true;
-			}
-		}
 
 		//only control the player if grounded or airControl is turned on
 		if (Grounded || AirControl)
 		{
-
-			// If crouching
-			if (crouch)
-			{
-				if (!wasCrouching)
-				{
-					wasCrouching = true;
-					
-				}
-
-				// Reduce the speed by the crouchSpeed multiplier
-				move *= CrouchSpeed;
-
-				// Disable one of the colliders when crouching
-				if (CrouchDisableCollider != null)
-					CrouchDisableCollider.enabled = false;
-			} else
-			{
-				// Enable the collider when not crouching
-				if (CrouchDisableCollider != null)
-					CrouchDisableCollider.enabled = true;
-
-				if (wasCrouching)
-				{
-					wasCrouching = false;
-					
-				}
-			}
 
 			// Move the character by finding the target velocity
 			Vector3 targetVelocity = new Vector2(move * 10f, Rigidbody2D.velocity.y);

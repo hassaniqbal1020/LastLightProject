@@ -13,6 +13,7 @@ TagManager:
   - Waterfall
   - EnemyIdle
   - EnemyActive
+  - CheckPoint
   layers:
   - Default
   - TransparentFX

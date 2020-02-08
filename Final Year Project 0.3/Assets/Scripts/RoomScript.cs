@@ -20,19 +20,19 @@ public class RoomScript : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.CompareTag("Player") & !collision.isTrigger)
+        if(collision.gameObject.tag == "Player" & !collision.isTrigger)
         {
             VirtualCamera.SetActive(true);
-
+            print("ouagbo");
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player") & !collision.isTrigger)
+        if (collision.gameObject.tag == "Player" & !collision.isTrigger)
         {
             VirtualCamera.SetActive(false);
-
+            print("ouagbo");
         }
     }
 }

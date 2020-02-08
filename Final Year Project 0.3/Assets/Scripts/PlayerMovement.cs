@@ -196,7 +196,7 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate()
     {
         //Reference to controller to Move/Crouch/Jump
-        controller.Move(horizontal * Time.fixedDeltaTime, crouch, jump);
+        controller.Move(horizontal * Time.fixedDeltaTime, jump);
         jump = false;
 
         //Dash Code - hold direction for dash
