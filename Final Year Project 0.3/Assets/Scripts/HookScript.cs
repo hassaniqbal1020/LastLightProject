@@ -5,8 +5,8 @@ using UnityEngine;
 public class HookScript : MonoBehaviour
 {
     public Transform playerTransform;
-
-
+    public float detectRange = 0.5f;
+    public LayerMask Player;
 
     // Start is called before the first frame update
     void Start()
@@ -17,33 +17,29 @@ public class HookScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-    }
+        Collider2D hookRange = Physics2D.OverlapCircle(transform.position, detectRange, Player);
 
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if(collision.gameObject.CompareTag("Player") && Vector3.Distance(playerTransform.position, transform.position) < 4)
+        if(hookRange != null)
         {
             GetComponent<SpriteRenderer>().color = Color.red;
-        }
 
-        if (collision.gameObject.CompareTag("Player") && Vector3.Distance(playerTransform.position, transform.position) > 4)
+        }else if(hookRange == null)
         {
             GetComponent<SpriteRenderer>().color = Color.yellow;
         }
+
+
 
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    private void OnDrawGizmosSelected()
     {
-        if (collision.gameObject.CompareTag("Player") && Vector3.Distance(playerTransform.position, transform.position) > 4)
+        if (transform.position == null)
         {
-            GetComponent<SpriteRenderer>().color = Color.yellow;
-        }
+            return;
 
-        if (collision.gameObject.CompareTag("Player") && Vector3.Distance(playerTransform.position, transform.position) < 4)
-        {
-            GetComponent<SpriteRenderer>().color = Color.yellow;
         }
+        Gizmos.DrawWireSphere(transform.position, detectRange);
+
     }
 }

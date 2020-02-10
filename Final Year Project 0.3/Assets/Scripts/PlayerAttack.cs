@@ -17,13 +17,17 @@ public class PlayerAttack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        if (Input.GetButtonDown("Xbox_B") && gameObject.GetComponentInParent<LifeForce>().currentLife > 0 && gameObject.GetComponentInParent<LifeForce>().LifeState == "Active")
+        if (GetComponentInParent<PlayerStates>().PlayerState == "Active")
         {
-            Attack();
+            if (Input.GetButtonDown("Xbox_B") && gameObject.GetComponentInParent<LifeForce>().currentLife > 0 && gameObject.GetComponentInParent<LifeForce>().LifeState == "Active")
+            {
+                Attack();
 
-            Debug.Log("B_Pressed");
+                Debug.Log("B_Pressed");
+            }
+
         }
+        
     }
 
     void Attack()

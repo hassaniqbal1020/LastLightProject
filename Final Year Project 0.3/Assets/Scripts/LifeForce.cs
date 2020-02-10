@@ -11,6 +11,7 @@ public class LifeForce : MonoBehaviour
 
     public bool Recharge;
     public float waitTime;
+    public float regenValue;
 
     public bool Active;
 
@@ -27,36 +28,47 @@ public class LifeForce : MonoBehaviour
         currentLife = maxLife;
         waitTime = 3f;
         LifeState = "Active";
-
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        currentLife = Lforce.value;
-
-        if (Input.GetButtonDown("Xbox_B") && LifeState == "Active")
+        if(GetComponent<PlayerStates>().PlayerState == "Active")
         {
-            waitTime = 3f;
-
-            if (gameObject.GetComponent<PlayerMovement>().InventoryNumber == 2)
+            if (Input.GetButtonDown("Xbox_B") && LifeState == "Active")
             {
-                if (gameObject.GetComponentInChildren<Shoot>().shootMetre > 0)
+                waitTime = 3f;
+                Active = true;
+
+                if (gameObject.GetComponent<PlayerMovement>().InventoryNumber == 2)
                 {
-                    Lforce.value -= maxLife * 0.25f;
+                    if (gameObject.GetComponentInChildren<Shoot>().shootMetre > 0)
+                    {
+                        Lforce.value -= maxLife * 0.25f;
+                        LAnim.SetTrigger("Used");
+                    }
+
+                }
+                else if (gameObject.GetComponent<PlayerMovement>().InventoryNumber == 1)
+                {
+                    Lforce.value -= maxLife * 0.08f;
                     LAnim.SetTrigger("Used");
                 }
 
-            }else if(gameObject.GetComponent<PlayerMovement>().InventoryNumber == 1)
-            {
-                Lforce.value -= maxLife * 0.08f;
-                LAnim.SetTrigger("Used");
-            }
-            
-            
 
+
+            }
+            else
+            {
+                Active = false;
+
+            }
+
+            
         }
+        currentLife = Lforce.value;
+
+        
 
         if(Lforce.value < maxLife)
         {
@@ -66,6 +78,7 @@ public class LifeForce : MonoBehaviour
         if(waitTime < 0)
         {
             StartCoroutine(Regen());
+            
         }
 
         if(Lforce.value <= 0)
@@ -89,12 +102,17 @@ public class LifeForce : MonoBehaviour
 
     IEnumerator Regen()
     {
+        yield return new WaitForSeconds(1f);
+        if (!Active && waitTime < 0)
+        {
+            Lforce.value += maxLife * regenValue * Time.deltaTime;
+            Debug.Log(regenValue);
+        }
         yield return new WaitForSeconds(0.5f);
-        Lforce.value += maxLife * 0.005f;
-        Debug.Log("Regen");
-
-        
-
+        if (Active)
+        {
+            yield return null;
+        }
     }
 
 

@@ -24,13 +24,17 @@ public class Shoot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Xbox_B") && shootMetre > 0 && gameObject.GetComponentInParent<LifeForce>().LifeState == "Active")
+        if(GetComponent<PlayerStates>().PlayerState == "Active")
         {
-            Instantiate(bRef, transform.position, transform.rotation);
-            shootMetre -= 1f;
+            if (Input.GetButtonDown("Xbox_B") && shootMetre > 0 && gameObject.GetComponentInParent<LifeForce>().LifeState == "Active")
+            {
+                Instantiate(bRef, transform.position, transform.rotation);
+                shootMetre -= 1f;
 
 
+            }
         }
+        
 
         if(shootMetre <= 0)
         {

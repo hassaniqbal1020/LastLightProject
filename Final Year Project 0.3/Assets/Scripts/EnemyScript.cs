@@ -35,9 +35,12 @@ public class EnemyScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        EnemySight();
-        EnemyPath();
+        if(GetComponent<EnemyStates>().EnemyState == "Active")
+        {
+            EnemySight();
+            EnemyPath();
+        }
+        
 
     }
 

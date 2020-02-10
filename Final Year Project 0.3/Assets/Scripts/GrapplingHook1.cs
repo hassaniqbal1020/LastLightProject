@@ -27,74 +27,78 @@ public class GrapplingHook1 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        foreach (Transform Hook in Hooks)
+        if(GetComponent<PlayerStates>().PlayerState == "Active")
         {
-            Debug.Log(Hook);
-            //HookActive = null;
-
-            if (Vector3.Distance(Hook.position, transform.position) < 4)
+            foreach (Transform Hook in Hooks)
             {
-                Debug.Log("Yes");
-                HookActive = Hook;
+                Debug.Log(Hook);
+                //HookActive = null;
+
+                if (Vector3.Distance(Hook.position, transform.position) < 4)
+                {
+                    Debug.Log("Yes");
+                    HookActive = Hook;
+
+                }
 
             }
 
-        }
-        
-        if (Input.GetButtonDown("Xbox_Right_Bumper"))
-        {
-            Debug.Log("Pressed");
-
-            ActiveState = "Active";
-            targetPos = HookActive.transform.position;
-
-            targetPos.z = 0; //Set Z to 0
-
-            hit = Physics2D.Raycast(transform.position, targetPos - transform.position, MaxDistance, mask); //Set Raycast origin and direction
-
-            if (hit.collider != null && hit.collider.gameObject.GetComponent<Rigidbody2D>() != null) //Raycast collides with something, collides with gameObject Rigidbody2D
+            if (Input.GetButtonDown("Xbox_Right_Bumper"))
             {
+                Debug.Log("Pressed");
 
-                PlayerJoint.enabled = true; //Active
-                PlayerJoint.connectedBody = hit.collider.gameObject.GetComponent<Rigidbody2D>(); //Set ConnectedBody to the Rigidbady2D hit by Raycast
-                PlayerJoint.distance = Vector2.Distance(transform.position, hit.point); //Set distance between player and Rigidbody2D
-                PlayerJoint.connectedAnchor = hit.point - new Vector2(hit.collider.transform.position.x, hit.collider.transform.position.y);
+                ActiveState = "Active";
+                targetPos = HookActive.transform.position;
 
-                HookLine.enabled = true;
+                targetPos.z = 0; //Set Z to 0
+
+                hit = Physics2D.Raycast(transform.position, targetPos - transform.position, MaxDistance, mask); //Set Raycast origin and direction
+
+                if (hit.collider != null && hit.collider.gameObject.GetComponent<Rigidbody2D>() != null) //Raycast collides with something, collides with gameObject Rigidbody2D
+                {
+
+                    PlayerJoint.enabled = true; //Active
+                    PlayerJoint.connectedBody = hit.collider.gameObject.GetComponent<Rigidbody2D>(); //Set ConnectedBody to the Rigidbady2D hit by Raycast
+                    PlayerJoint.distance = Vector2.Distance(transform.position, hit.point); //Set distance between player and Rigidbody2D
+                    PlayerJoint.connectedAnchor = hit.point - new Vector2(hit.collider.transform.position.x, hit.collider.transform.position.y);
+
+                    HookLine.enabled = true;
+                    HookLine.SetPosition(0, transform.position);
+                    HookLine.SetPosition(1, hit.point);
+
+
+                }
+
+            }
+
+            if (Input.GetButton("Xbox_Right_Bumper"))
+            {
                 HookLine.SetPosition(0, transform.position);
-                HookLine.SetPosition(1, hit.point);
-
 
             }
 
+            if (Input.GetButtonUp("Xbox_Right_Bumper"))
+            {
+                PlayerJoint.enabled = false;
+                HookLine.enabled = false;
+                ActiveState = "InActive";
+
+            }
+
+            if (PlayerJoint.distance > 0.7f)
+            {
+                PlayerJoint.distance -= DecreaseDistance * Time.deltaTime;
+
+            }
+            else
+            {
+                PlayerJoint.distance -= 0;
+
+            }
+
+            Debug.DrawRay(transform.position, targetPos - transform.position);
         }
 
-        if (Input.GetButton("Xbox_Right_Bumper"))
-        {
-            HookLine.SetPosition(0, transform.position);
-
-        }
-
-        if (Input.GetButtonUp("Xbox_Right_Bumper"))
-        {
-            PlayerJoint.enabled = false;
-            HookLine.enabled = false;
-            ActiveState = "InActive";
-
-        }
-
-        if (PlayerJoint.distance > 0.7f)
-        {
-            PlayerJoint.distance -= DecreaseDistance * Time.deltaTime;
-
-        }
-        else
-        {
-            PlayerJoint.distance -= 0;
-
-        }
-
-        Debug.DrawRay(transform.position, targetPos - transform.position);
 
     }
 }
