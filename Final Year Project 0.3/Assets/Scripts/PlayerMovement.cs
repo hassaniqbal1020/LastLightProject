@@ -151,7 +151,7 @@ public class PlayerMovement : MonoBehaviour
 
             //print(horizontal);
 
-            if (InventoryNumber == 1f)
+            if (InventoryNumber == 2f)
             {
                 SwordRef.SetActive(true);
 
@@ -162,7 +162,7 @@ public class PlayerMovement : MonoBehaviour
 
             }
 
-            if (InventoryNumber == 2f)
+            if (InventoryNumber == 1f)
             {
                 shootRef.SetActive(true);
 

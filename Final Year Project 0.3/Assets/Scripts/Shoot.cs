@@ -16,7 +16,7 @@ public class Shoot : MonoBehaviour
     void Start()
     {
         ShootState = "nShoot";
-        shootMetre = 3f;
+        shootMetre = 4f;
         shootTimer = 0.01f;
 
     }
@@ -24,9 +24,9 @@ public class Shoot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(GetComponent<PlayerStates>().PlayerState == "Active")
+        if(GetComponentInParent<PlayerStates>().PlayerState == "Active")
         {
-            if (Input.GetButtonDown("Xbox_B") && shootMetre > 0 && gameObject.GetComponentInParent<LifeForce>().LifeState == "Active")
+            if (Input.GetButtonDown("Xbox_B") && shootMetre > 0 && GetComponentInParent<LifeForce>().LifeState == "Active")
             {
                 Instantiate(bRef, transform.position, transform.rotation);
                 shootMetre -= 1f;
@@ -44,7 +44,7 @@ public class Shoot : MonoBehaviour
 
         if(shootTimer <= 0)
         {
-            shootMetre = 3f;
+            shootMetre = 4f;
             shootTimer = 0.01f;
 
 

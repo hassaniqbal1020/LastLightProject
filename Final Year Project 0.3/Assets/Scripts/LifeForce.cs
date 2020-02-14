@@ -40,16 +40,16 @@ public class LifeForce : MonoBehaviour
                 waitTime = 3f;
                 Active = true;
 
-                if (gameObject.GetComponent<PlayerMovement>().InventoryNumber == 2)
+                if (gameObject.GetComponent<PlayerMovement>().InventoryNumber == 1)
                 {
                     if (gameObject.GetComponentInChildren<Shoot>().shootMetre > 0)
                     {
-                        Lforce.value -= maxLife * 0.25f;
+                        Lforce.value -= maxLife * 0.24f;
                         LAnim.SetTrigger("Used");
                     }
 
                 }
-                else if (gameObject.GetComponent<PlayerMovement>().InventoryNumber == 1)
+                else if (gameObject.GetComponent<PlayerMovement>().InventoryNumber == 2)
                 {
                     Lforce.value -= maxLife * 0.08f;
                     LAnim.SetTrigger("Used");

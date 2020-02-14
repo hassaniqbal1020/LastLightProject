@@ -6,13 +6,12 @@ public class checkpoint : MonoBehaviour
 {
     public Vector2 lastPos;
     public bool isDead;
-    float dTimer;
+    public float dTimer;
 
     // Start is called before the first frame update
     void Start()
     {
-        dTimer = 1.5f;
-
+        dTimer = 0.5f;
     }
 
     // Update is called once per frame
@@ -21,17 +20,18 @@ public class checkpoint : MonoBehaviour
         if (isDead)
         {
             dTimer -= Time.deltaTime;
-
+            GetComponent<SpriteRenderer>().color = Color.red;
         }
 
         if(dTimer <= 0)
         {
             gameObject.transform.position = lastPos;
+            dTimer = 0.5f;
+            GetComponent<PlayerStates>().isDead = false;
             isDead = false;
-            dTimer = 1.5f;
-
-
+            GetComponent<SpriteRenderer>().color = Color.white;
         }
+        
     }
 
     void OnTriggerEnter2D(Collider2D collision)

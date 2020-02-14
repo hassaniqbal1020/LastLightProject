@@ -6,6 +6,8 @@ public class PlayerStates : MonoBehaviour
 {
     public Main mRef;
     public string PlayerState;
+    public bool isDead;
+    public GameObject dPart;
 
     // Start is called before the first frame update
     void Start()
@@ -17,7 +19,8 @@ public class PlayerStates : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(mRef.MainState == "Play")
+
+        if(mRef.MainState == "Play" && !isDead)
         {
             PlayerState = "Active";
         }
@@ -25,5 +28,23 @@ public class PlayerStates : MonoBehaviour
         {
             PlayerState = "inActive";
         }
+
+        if(mRef.MainState == "Play" && isDead)
+        {
+            PlayerState = "Dead";
+            GetComponent<checkpoint>().isDead = true;
+        }
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Spike"))
+        {
+            isDead = true;
+            
+
+        }
+
+    }
+
 }
