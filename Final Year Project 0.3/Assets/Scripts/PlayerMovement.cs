@@ -52,179 +52,171 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(GetComponent<PlayerStates>().PlayerState == "Active")
+        if (GetComponent<GrapplingHook1>().ActiveState == "InActive")
         {
-            if (GetComponent<GrapplingHook1>().ActiveState == "InActive")
-            {
-                GrapHookActive = "InActive";
+            GrapHookActive = "InActive";
 
-            }
-
-            if (GetComponent<GrapplingHook1>().ActiveState == "Active")
-            {
-                GrapHookActive = "Active";
-
-            }
-            //Horizontal Movement
-            horizontal = Input.GetAxisRaw("XboxLeftStickX") * Speed;
-
-            if (horizontal >= 0 || horizontal <= 0)
-            {
-                //playerAnim.SetFloat("Speed", 1f);
-
-
-            }
-
-            if (horizontal == 0)
-            {
-                //playerAnim.SetFloat("Speed", 0);
-
-            }
-
-            //Player Jump - Double Jump/Super Jump
-            if (Input.GetButtonDown("Xbox_A") && onPlatform == false && onWater == false)
-            {
-                jump = true;
-
-            }
-
-            if (jump == true)
-            {
-                //playerAnim.SetBool("Jump", true);
-
-
-
-            }
-
-            //Player Crouch
-            if (Input.GetButtonDown("Crouch"))
-            {
-                crouch = true;
-
-            }
-            else if (Input.GetButtonUp("Crouch"))
-            {
-                crouch = false;
-
-            }
-
-            //Player Dash
-            if (Input.GetButtonDown("Xbox_X") && DashState == "nDash" && horizontal != 0)
-            {
-                dash = true;
-                DashState = "Dash";
-            }
-
-            if (DashState == "Dash")
-            {
-                DashTimer -= Time.deltaTime;
-            }
-
-            if (DashTimer <= 0)
-            {
-                DashTimer = 0.5f;
-                DashState = "nDash";
-
-
-            }
-
-            if (Input.GetButtonDown("Xbox_Left_Bumper"))
-            {
-                InventoryNumber += 1f;
-
-
-            }
-
-            if (Input.GetAxisRaw("XboxLeftTrigger") == 1)
-            {
-                InventoryNumber = 0f;
-
-            }
-
-
-            //Item select
-            if (InventoryNumber > 2f)
-            {
-                InventoryNumber = 1f;
-
-            }
-
-            //print(horizontal);
-
-            if (InventoryNumber == 2f)
-            {
-                SwordRef.SetActive(true);
-
-            }
-            else
-            {
-                SwordRef.SetActive(false);
-
-            }
-
-            if (InventoryNumber == 1f)
-            {
-                shootRef.SetActive(true);
-
-            }
-            else
-            {
-                shootRef.SetActive(false);
-
-            }
-
-            if (InventoryNumber == 0f)
-            {
-                shieldRef.SetActive(true);
-
-            }
-            else
-            {
-                shieldRef.SetActive(false);
-
-            }
-
-
-            if (Input.GetButton("Xbox_A") && onPlatform == true)
-            {
-                mPref.Active = true;
-
-            }
         }
 
-        
+        if (GetComponent<GrapplingHook1>().ActiveState == "Active")
+        {
+            GrapHookActive = "Active";
+
+        }
+        //Horizontal Movement
+        horizontal = Input.GetAxisRaw("XboxLeftStickX") * Speed;
+
+        if (horizontal >= 0 || horizontal <= 0)
+        {
+            //playerAnim.SetFloat("Speed", 1f);
+
+
+        }
+
+        if (horizontal == 0)
+        {
+            //playerAnim.SetFloat("Speed", 0);
+
+        }
+
+        //Player Jump - Double Jump/Super Jump
+        if (Input.GetButtonDown("Xbox_A") && onPlatform == false && onWater == false)
+        {
+            jump = true;
+
+        }
+
+        if (jump == true)
+        {
+            //playerAnim.SetBool("Jump", true);
+
+
+
+        }
+
+        //Player Crouch
+        if (Input.GetButtonDown("Crouch"))
+        {
+            crouch = true;
+
+        }
+        else if (Input.GetButtonUp("Crouch"))
+        {
+            crouch = false;
+
+        }
+
+        //Player Dash
+        if (Input.GetButtonDown("Xbox_X") && DashState == "nDash" && horizontal != 0)
+        {
+            dash = true;
+            DashState = "Dash";
+        }
+
+        if (DashState == "Dash")
+        {
+            DashTimer -= Time.deltaTime;
+        }
+
+        if (DashTimer <= 0)
+        {
+            DashTimer = 0.5f;
+            DashState = "nDash";
+
+
+        }
+
+        if (Input.GetButtonDown("Xbox_Left_Bumper"))
+        {
+            InventoryNumber += 1f;
+
+
+        }
+
+        if (Input.GetAxisRaw("XboxLeftTrigger") == 1)
+        {
+            InventoryNumber = 0f;
+
+        }
+
+
+        //Item select
+        if (InventoryNumber > 2f)
+        {
+            InventoryNumber = 1f;
+
+        }
+
+        //print(horizontal);
+
+        if (InventoryNumber == 2f)
+        {
+            SwordRef.SetActive(true);
+
+        }
+        else
+        {
+            SwordRef.SetActive(false);
+
+        }
+
+        if (InventoryNumber == 1f)
+        {
+            shootRef.SetActive(true);
+
+        }
+        else
+        {
+            shootRef.SetActive(false);
+
+        }
+
+        if (InventoryNumber == 0f)
+        {
+            shieldRef.SetActive(true);
+
+        }
+        else
+        {
+            shieldRef.SetActive(false);
+
+        }
+
+
+        if (Input.GetButton("Xbox_A") && onPlatform == true)
+        {
+            mPref.Active = true;
+
+        }
 
 
     }
 
     void FixedUpdate()
     {
-        if(GetComponent<PlayerStates>().PlayerState == "Active")
+        //Reference to controller to Move/Crouch/Jump
+        controller.Move(horizontal * Time.fixedDeltaTime, jump);
+        jump = false;
+
+        //Dash Code - hold direction for dash
+        if (dash == true && DashState == "Dash")
         {
-            //Reference to controller to Move/Crouch/Jump
-            controller.Move(horizontal * Time.fixedDeltaTime, jump);
-            jump = false;
 
-            //Dash Code - hold direction for dash
-            if (dash == true && DashState == "Dash")
+            if (horizontal > 0)
             {
+                rb.AddForce(transform.right * ThrustForce, ForceMode2D.Impulse);
+                dash = false;
 
-                if (horizontal > 0)
-                {
-                    rb.AddForce(transform.right * ThrustForce, ForceMode2D.Impulse);
-                    dash = false;
-
-
-                }
-                else if (horizontal < 0)
-                {
-                    rb.AddForce(transform.right * ThrustForce, ForceMode2D.Impulse);
-                    dash = false;
-
-                }
 
             }
-        }       
+            else if (horizontal < 0)
+            {
+                rb.AddForce(transform.right * ThrustForce, ForceMode2D.Impulse);
+                dash = false;
+
+            }
+
+        }
 
     }
 

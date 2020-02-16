@@ -1,17 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class checkpoint : MonoBehaviour
 {
     public Vector2 lastPos;
     public bool isDead;
-    public float dTimer;
+    public Image hitEffect;
+    float hitTimer;
 
     // Start is called before the first frame update
     void Start()
     {
-        dTimer = 0.5f;
+        isDead = false;
+        hitEffect.enabled = false;
+        hitTimer = 1f;
     }
 
     // Update is called once per frame
@@ -19,17 +24,21 @@ public class checkpoint : MonoBehaviour
     {
         if (isDead)
         {
-            dTimer -= Time.deltaTime;
-            GetComponent<SpriteRenderer>().color = Color.red;
+            transform.position = lastPos;
+            isDead = false;
+
         }
 
-        if(dTimer <= 0)
+        if (hitEffect.enabled == true)
         {
-            gameObject.transform.position = lastPos;
-            dTimer = 0.5f;
-            GetComponent<PlayerStates>().isDead = false;
-            isDead = false;
-            GetComponent<SpriteRenderer>().color = Color.white;
+            hitTimer -= Time.deltaTime;
+        }
+
+        if(hitTimer <= 0)
+        {
+            hitEffect.enabled = false;
+            hitTimer = 1f;
+
         }
         
     }
@@ -39,6 +48,13 @@ public class checkpoint : MonoBehaviour
         if (collision.CompareTag("CheckPoint"))
         {
             lastPos = collision.gameObject.transform.position;
+
+        }
+
+        if (collision.CompareTag("Spike"))
+        {
+            isDead = true;
+            hitEffect.enabled = true;
 
         }
     }

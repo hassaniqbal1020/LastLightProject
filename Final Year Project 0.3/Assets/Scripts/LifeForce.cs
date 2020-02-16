@@ -33,39 +33,35 @@ public class LifeForce : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(GetComponent<PlayerStates>().PlayerState == "Active")
+        if (Input.GetButtonDown("Xbox_B") && LifeState == "Active")
         {
-            if (Input.GetButtonDown("Xbox_B") && LifeState == "Active")
+            waitTime = 3f;
+            Active = true;
+
+            if (gameObject.GetComponent<PlayerMovement>().InventoryNumber == 1)
             {
-                waitTime = 3f;
-                Active = true;
-
-                if (gameObject.GetComponent<PlayerMovement>().InventoryNumber == 1)
+                if (gameObject.GetComponentInChildren<Shoot>().shootMetre > 0)
                 {
-                    if (gameObject.GetComponentInChildren<Shoot>().shootMetre > 0)
-                    {
-                        Lforce.value -= maxLife * 0.24f;
-                        LAnim.SetTrigger("Used");
-                    }
-
-                }
-                else if (gameObject.GetComponent<PlayerMovement>().InventoryNumber == 2)
-                {
-                    Lforce.value -= maxLife * 0.08f;
+                    Lforce.value -= maxLife * 0.24f;
                     LAnim.SetTrigger("Used");
                 }
 
-
-
             }
-            else
+            else if (gameObject.GetComponent<PlayerMovement>().InventoryNumber == 2)
             {
-                Active = false;
-
+                Lforce.value -= maxLife * 0.08f;
+                LAnim.SetTrigger("Used");
             }
 
-            
+
+
         }
+        else
+        {
+            Active = false;
+
+        }
+
         currentLife = Lforce.value;
 
         

@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerAttack : MonoBehaviour
 {
     public Animator swordAnimator;
-
+    public PlayerLife UIref;
     public Transform attackPoint;
     public float attackRange = 0.5f;
     public LayerMask enemyLayers;
@@ -17,17 +17,17 @@ public class PlayerAttack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GetComponentInParent<PlayerStates>().PlayerState == "Active")
+        if(UIref.rechargeState == "Active")
         {
-            if (Input.GetButtonDown("Xbox_B") && gameObject.GetComponentInParent<LifeForce>().currentLife > 0 && gameObject.GetComponentInParent<LifeForce>().LifeState == "Active")
+            if (Input.GetButtonDown("Xbox_B"))
             {
                 Attack();
 
                 Debug.Log("B_Pressed");
             }
-
         }
         
+
     }
 
     void Attack()
