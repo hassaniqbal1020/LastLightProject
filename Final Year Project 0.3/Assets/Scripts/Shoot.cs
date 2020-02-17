@@ -9,13 +9,11 @@ public class Shoot : MonoBehaviour
     public float shootMetre;
     public float shootTimer;
 
-
     // Start is called before the first frame update
     void Start()
     {
         shootMetre = 4f;
         shootTimer = 0.01f;
-
     }
 
     // Update is called once per frame

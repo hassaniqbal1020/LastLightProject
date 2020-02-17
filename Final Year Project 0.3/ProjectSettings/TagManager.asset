@@ -15,6 +15,9 @@ TagManager:
   - EnemyActive
   - CheckPoint
   - Spike
+  - Interactable
+  - Range
+  - Melee
   layers:
   - Default
   - TransparentFX

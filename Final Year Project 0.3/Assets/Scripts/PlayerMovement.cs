@@ -12,6 +12,9 @@ public class PlayerMovement : MonoBehaviour
     bool dash = false;
     bool onPlatform = false;
     bool onWater = false;
+    public bool rPickup;
+    public bool mPickup;
+
     public float InventoryNumber = 1f;
     string GrapHookActive;
     public float DashTimer = 0.5f;
@@ -44,8 +47,8 @@ public class PlayerMovement : MonoBehaviour
 
         DisJoint = GetComponent<DistanceJoint2D>();
         DisJoint.enabled = false;
-
-
+        shootRef.SetActive(false);
+        SwordRef.SetActive(false);
 
     }
 
@@ -149,7 +152,7 @@ public class PlayerMovement : MonoBehaviour
 
         //print(horizontal);
 
-        if (InventoryNumber == 2f)
+        if (InventoryNumber == 2f && mPickup)
         {
             SwordRef.SetActive(true);
 
@@ -160,7 +163,7 @@ public class PlayerMovement : MonoBehaviour
 
         }
 
-        if (InventoryNumber == 1f)
+        if (InventoryNumber == 1f && rPickup)
         {
             shootRef.SetActive(true);
 
@@ -262,4 +265,5 @@ public class PlayerMovement : MonoBehaviour
 
         }
     }
+
 }

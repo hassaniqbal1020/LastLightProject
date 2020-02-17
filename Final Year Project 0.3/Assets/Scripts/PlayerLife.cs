@@ -8,6 +8,8 @@ public class PlayerLife : MonoBehaviour
     public float LifeNum;
     public float lTimer;
     public string rechargeState;
+    public PlayerMovement pRef;
+    bool enable;
 
 
     // Start is called before the first frame update
@@ -16,6 +18,8 @@ public class PlayerLife : MonoBehaviour
         LifeNum = 6f;
         lTimer = 2f;
         rechargeState = "Active";
+        enable = false;
+
     }
 
     // Update is called once per frame
@@ -23,13 +27,27 @@ public class PlayerLife : MonoBehaviour
     {
         LifeCounter();
 
-        if (Input.GetButtonDown("Xbox_B"))
+        if(pRef.mPickup && pRef.rPickup)
         {
-            LifeNum -= 1;
-            lTimer = 2f;
-
+            enable = true;
 
         }
+        else
+        {
+            enable = false;
+
+        }
+
+        if (enable)
+        {
+            if (Input.GetButtonDown("Xbox_B"))
+            {
+                LifeNum -= 1;
+                lTimer = 2f;
+
+            }
+        }
+        
 
         if(LifeNum < 6)
         {

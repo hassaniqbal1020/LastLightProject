@@ -9,10 +9,13 @@ public class PlayerAttack : MonoBehaviour
     public Transform attackPoint;
     public float attackRange = 0.5f;
     public LayerMask enemyLayers;
-
     public int attackDamage = 40;
     //public GameObject pRef;
 
+    void Start()
+    {
+        
+    }
 
     // Update is called once per frame
     void Update()
@@ -25,6 +28,8 @@ public class PlayerAttack : MonoBehaviour
 
                 Debug.Log("B_Pressed");
             }
+
+
         }
         
 
