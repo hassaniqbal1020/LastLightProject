@@ -36,7 +36,7 @@ public class SpikeScript : MonoBehaviour
 
     IEnumerator Die()
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.01f);
         Instantiate(deathEffect, transform.position, transform.rotation);
         Destroy(gameObject);
 

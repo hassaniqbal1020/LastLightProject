@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -20,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
     public float DashTimer = 0.5f;
     public string DashState;
 
+    public Image joyStickTut;
 
     DistanceJoint2D DisJoint;
 
@@ -69,10 +71,10 @@ public class PlayerMovement : MonoBehaviour
         //Horizontal Movement
         horizontal = Input.GetAxisRaw("XboxLeftStickX") * Speed;
 
-        if (horizontal >= 0 || horizontal <= 0)
+        if (horizontal > 0 || horizontal < 0)
         {
             //playerAnim.SetFloat("Speed", 1f);
-
+            joyStickTut.enabled = false;
 
         }
 
