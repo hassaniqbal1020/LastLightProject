@@ -10,6 +10,8 @@ public class checkpoint : MonoBehaviour
     public bool isDead;
     public Image hitEffect;
     float hitTimer;
+    float freezeTimer;
+
 
     // Start is called before the first frame update
     void Start()
@@ -17,6 +19,8 @@ public class checkpoint : MonoBehaviour
         isDead = false;
         hitEffect.enabled = false;
         hitTimer = 1f;
+        freezeTimer = 1f;
+
     }
 
     // Update is called once per frame
@@ -24,21 +28,19 @@ public class checkpoint : MonoBehaviour
     {
         if (isDead)
         {
+            freezeTimer -= Time.fixedDeltaTime;
+            Time.timeScale = 0;
+
+
+        }
+
+        if(freezeTimer <= 0)
+        {
+            Time.timeScale = 1;
             transform.position = lastPos;
             isDead = false;
-
-        }
-
-        if (hitEffect.enabled == true)
-        {
-            hitTimer -= Time.deltaTime;
-        }
-
-        if(hitTimer <= 0)
-        {
+            freezeTimer = 1f;
             hitEffect.enabled = false;
-            hitTimer = 1f;
-
         }
         
     }
