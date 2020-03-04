@@ -11,7 +11,7 @@ public class CharacterController2D : MonoBehaviour
 	public Transform CeilingCheck;										
 
 	const float GroundedRadius = .2f; 
-	private bool Grounded;            
+	public bool Grounded;            
 	const float CeilingRadius = .2f; 
 	private Rigidbody2D Rigidbody2D;
 	private bool FacingRight = true;  

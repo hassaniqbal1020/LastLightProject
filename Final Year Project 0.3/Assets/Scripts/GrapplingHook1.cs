@@ -32,7 +32,7 @@ public class GrapplingHook1 : MonoBehaviour
             Debug.Log(Hook);
             //HookActive = null;
 
-            if (Vector3.Distance(Hook.position, transform.position) < 4)
+            if (Vector3.Distance(Hook.position, transform.position) < 5)
             {
                 Debug.Log("Yes");
                 HookActive = Hook;

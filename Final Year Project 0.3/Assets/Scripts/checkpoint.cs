@@ -52,6 +52,12 @@ public class checkpoint : MonoBehaviour
             lastPos = collision.gameObject.transform.position;
 
         }
+
+        if (collision.CompareTag("Spike"))
+        {
+            isDead = true;
+            hitEffect.enabled = true;
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -62,4 +68,6 @@ public class checkpoint : MonoBehaviour
             hitEffect.enabled = true;
         }
     }
+
+
 }
