@@ -18,6 +18,8 @@ TagManager:
   - Interactable
   - Range
   - Melee
+  - LightOrb
+  - EnemyAttack
   layers:
   - Default
   - TransparentFX

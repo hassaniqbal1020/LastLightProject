@@ -10,8 +10,10 @@ public class EnemyScript : MonoBehaviour
     public LayerMask mask;
     bool FacingRight;
     public Transform SightPos;
-    float activeTimer = 1f;
+    public float activeTimer;
     bool Playerhit;
+    public float speed;
+    public float AttackTimer;
 
     public Transform GroundR;
     //public Transform GroundL;
@@ -39,6 +41,7 @@ public class EnemyScript : MonoBehaviour
         {
             EnemySight();
             EnemyPath();
+            EnemyAttack();
         }
         
 
@@ -57,6 +60,8 @@ public class EnemyScript : MonoBehaviour
 
     void EnemySight()
     {
+        Debug.DrawRay(SightPos.position, SightPos.right);
+
         RaycastHit2D hit = Physics2D.Raycast(SightPos.position, SightPos.right, maxDistance, mask);
 
         if (hit.collider != null && hit.collider.gameObject.GetComponent<Rigidbody2D>() != null)
@@ -73,18 +78,62 @@ public class EnemyScript : MonoBehaviour
 
         }
 
+        if(activeTimer <= 0 && hit.collider == null && gameObject.tag != ("EnemyAttack"))
+        {
+            gameObject.tag = ("EnemyIdle");
+            activeTimer = 1;
+
+        }
+
+        if(activeTimer <= 0 && hit.collider != null)
+        {
+            gameObject.tag = ("EnemyAttack");
+
+        }
+
+        if (gameObject.tag == ("EnemyAttack"))
+        {
+
+            if (hit.collider == null)
+            {
+                AttackTimer -= Time.deltaTime;
+            }
+
+            if(AttackTimer <= 0)
+            {
+                gameObject.tag = ("EnemyIdle");
+                activeTimer = 1;
+                AttackTimer = 5;
+            }
+
+        }
+
         Debug.DrawRay(SightPos.position, SightPos.right);
+    }
+
+    void EnemyAttack()
+    {
+        if(gameObject.tag == ("EnemyAttack"))
+        {
+            GetComponent<SpriteRenderer>().color = Color.red;
+        }
+        else
+        {
+            GetComponent<SpriteRenderer>().color = Color.blue;
+        }
+        
     }
 
     void EnemyPath()
     {
+        
         Collider2D hitGroundR = Physics2D.OverlapCircle(GroundR.position, WalkRange, 1 << 11);
         //Collider2D hitGroundL = Physics2D.OverlapCircle(GroundL.position, WalkRange, GroundLayers);
         if(gameObject.tag == "EnemyIdle")
         {
             if (!EnemyFacingRight) //Moving Left
             {
-                rb.velocity = new Vector3(-1f, 0f, 0f);
+                rb.velocity = new Vector3(-speed, 0f, 0f);
                 if (hitGroundR == null)
                 {
                     Flip();
@@ -94,7 +143,7 @@ public class EnemyScript : MonoBehaviour
             }
             else if (EnemyFacingRight) //Moving Right
             {
-                rb.velocity = new Vector3(1f, 0f, 0f);
+                rb.velocity = new Vector3(speed, 0f, 0f);
                 if (hitGroundR == null)
                 {
                     Flip();
