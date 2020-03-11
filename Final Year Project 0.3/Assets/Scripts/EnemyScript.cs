@@ -8,12 +8,26 @@ public class EnemyScript : MonoBehaviour
     int currentHealth;
     public float maxDistance;
     public LayerMask mask;
+    public LayerMask playerMask;
+    public PlayerMovement pRef;
+    public PlayerLife lifeRef;
+
+    public float attackTime;
+    public bool canAttack;
     bool FacingRight;
     public Transform SightPos;
     public float activeTimer;
     bool Playerhit;
     public float speed;
+    public float AttackSpeed;
+    public float stopDistance;
+    public float attackRange;
+    public Transform attackPoint;
+    public Animator enemyAnim;
+
     public float AttackTimer;
+    bool isFloor;
+    public Transform targetLocation;
 
     public Transform GroundR;
     //public Transform GroundL;
@@ -30,8 +44,8 @@ public class EnemyScript : MonoBehaviour
         gameObject.tag = ("EnemyIdle");
         rb = GetComponent<Rigidbody2D>();
         EnemyFacingRight = true;
-
-
+        targetLocation = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        canAttack = true;
     }
 
     // Update is called once per frame
@@ -43,7 +57,21 @@ public class EnemyScript : MonoBehaviour
             EnemyPath();
             EnemyAttack();
         }
-        
+
+        if (!GetComponentInChildren<enemyAttackTimer>().attack)
+        {
+            attackTime -= Time.deltaTime;
+            canAttack = false;
+
+        }
+
+        if(attackTime <= 0)
+        {
+            attackTime = 2;
+            canAttack = true;
+            GetComponentInChildren<enemyAttackTimer>().attack = true;
+
+        }
 
     }
 
@@ -58,17 +86,16 @@ public class EnemyScript : MonoBehaviour
         }
     }
 
-    void EnemySight()
+    void EnemySight() //enemy line of sight
     {
         Debug.DrawRay(SightPos.position, SightPos.right);
 
         RaycastHit2D hit = Physics2D.Raycast(SightPos.position, SightPos.right, maxDistance, mask);
 
-        if (hit.collider != null && hit.collider.gameObject.GetComponent<Rigidbody2D>() != null)
+        if (hit.collider != null && pRef.visible)
         {
             Debug.Log("PlayerHit");
             gameObject.tag = ("EnemyActive");
-
 
         }
 
@@ -97,13 +124,15 @@ public class EnemyScript : MonoBehaviour
             if (hit.collider == null)
             {
                 AttackTimer -= Time.deltaTime;
+                Debug.Log("noPlayer");
+
             }
 
             if(AttackTimer <= 0)
             {
                 gameObject.tag = ("EnemyIdle");
                 activeTimer = 1;
-                AttackTimer = 5;
+                AttackTimer = 2;
             }
 
         }
@@ -113,9 +142,18 @@ public class EnemyScript : MonoBehaviour
 
     void EnemyAttack()
     {
-        if(gameObject.tag == ("EnemyAttack"))
+        Collider2D playerHitBox = Physics2D.OverlapCircle(attackPoint.position, attackRange, playerMask);
+
+        if(gameObject.tag == ("EnemyAttack") && isFloor)
         {
             GetComponent<SpriteRenderer>().color = Color.red;
+
+            if(playerHitBox != null && canAttack)
+            {
+                enemyAnim.SetTrigger("eAttack");
+                
+            }
+
         }
         else
         {
@@ -129,8 +167,17 @@ public class EnemyScript : MonoBehaviour
         
         Collider2D hitGroundR = Physics2D.OverlapCircle(GroundR.position, WalkRange, 1 << 11);
         //Collider2D hitGroundL = Physics2D.OverlapCircle(GroundL.position, WalkRange, GroundLayers);
-        if(gameObject.tag == "EnemyIdle")
+
+        if (hitGroundR != null)
         {
+            Debug.Log("HitGround");
+            isFloor = true;
+        }
+        
+        if (gameObject.tag == "EnemyIdle")
+        {
+            canAttack = true;
+
             if (!EnemyFacingRight) //Moving Left
             {
                 rb.velocity = new Vector3(-speed, 0f, 0f);
@@ -152,12 +199,37 @@ public class EnemyScript : MonoBehaviour
 
 
             }
-
-            if (hitGroundR != null)
+        } 
+        
+        if(gameObject.tag == ("EnemyAttack"))
+        {
+           
+            if (EnemyFacingRight)
             {
-                Debug.Log("HitGround");
+                if (targetLocation.position.x < gameObject.transform.position.x)
+                {
+                    Flip();
+
+                }
+            }else if (!EnemyFacingRight)
+            {
+                if (targetLocation.position.x > gameObject.transform.position.x)
+                {
+                    Flip();
+                }
+                
             }
-        }      
+
+            if (Vector2.Distance(transform.position, targetLocation.position) > stopDistance)
+            {
+                transform.position = Vector2.MoveTowards(transform.position, new Vector2(targetLocation.position.x, transform.position.y), AttackSpeed * Time.deltaTime);
+
+            }
+            
+
+        }
+
+        
 
     }
 
@@ -178,6 +250,12 @@ public class EnemyScript : MonoBehaviour
         transform.Rotate(0, 180, 0);
     }
 
+    public void EnemeyStun()
+    {
+        Debug.Log("enemyStun");
+
+    }
+
     private void OnDrawGizmos()
     {
         if(GroundR.position == null)
@@ -191,6 +269,6 @@ public class EnemyScript : MonoBehaviour
         //}
 
         Gizmos.DrawWireSphere(GroundR.position, WalkRange);
-        //Gizmos.DrawWireSphere(GroundL.position, WalkRange);
+        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
 }

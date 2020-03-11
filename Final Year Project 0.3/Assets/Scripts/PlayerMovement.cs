@@ -15,6 +15,7 @@ public class PlayerMovement : MonoBehaviour
     bool onWater = false;
     public bool rPickup;
     public bool mPickup;
+    public bool visible;
 
     public float InventoryNumber = 1f;
     string GrapHookActive;
@@ -52,6 +53,8 @@ public class PlayerMovement : MonoBehaviour
         DisJoint.enabled = false;
         shootRef.SetActive(false);
         SwordRef.SetActive(false);
+
+        visible = true;
 
     }
 

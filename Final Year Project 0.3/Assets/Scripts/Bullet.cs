@@ -7,8 +7,12 @@ public class Bullet : MonoBehaviour
     public float Speed;
     public float bTimer;
     public float Brange;
+    public float attackRange;
+
     public LayerMask interactLayers;
     public LayerMask stickLayer;
+    public LayerMask enemyLayer;
+
     bool moving;
 
     private Rigidbody2D rb;
@@ -54,7 +58,14 @@ public class Bullet : MonoBehaviour
 
         }
 
+        Collider2D[] enemiesHit = Physics2D.OverlapCircleAll(transform.position, attackRange, enemyLayer);
 
+        foreach(Collider2D enemy in enemiesHit)
+        {
+            enemy.GetComponent<EnemyScript>().EnemeyStun();
+            rb.velocity = new Vector2(0, 0);
+            Destroy(gameObject);
+        }
     }
 
     void FixedUpdate()
@@ -74,5 +85,6 @@ public class Bullet : MonoBehaviour
         }
 
         Gizmos.DrawWireSphere(transform.position, Brange);
+        Gizmos.DrawWireSphere(transform.position, attackRange);
     }
 }

@@ -98,13 +98,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Speed: 0
   bTimer: 0
-  Brange: 0.06
+  Brange: 0.061
+  attackRange: 0.07
   interactLayers:
     serializedVersion: 2
     m_Bits: 10240
   stickLayer:
     serializedVersion: 2
     m_Bits: 20480
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!50 &6734724713871112826
 Rigidbody2D:
   serializedVersion: 4
@@ -141,4 +145,4 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.0625
+  m_Radius: 0.059
