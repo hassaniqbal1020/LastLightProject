@@ -9,7 +9,6 @@ public class PlayerMovement : MonoBehaviour
 
     public float horizontal = 0f;
     bool jump = false;
-    bool crouch = false;
     bool dash = false;
     bool onPlatform = false;
     bool onWater = false;
@@ -194,7 +193,7 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        //Reference to controller to Move/Crouch/Jump
+        //Reference to controller to Move/Jump
         controller.Move(horizontal * Time.fixedDeltaTime, jump);
         jump = false;
 

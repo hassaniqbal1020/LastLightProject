@@ -871,14 +871,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   maxDistance: 2
-  mask:
-    serializedVersion: 2
-    m_Bits: 256
   playerMask:
     serializedVersion: 2
     m_Bits: 256
   pRef: {fileID: 884944143}
-  lifeRef: {fileID: 0}
+  lifeRef: {fileID: 1566923204}
   attackTime: 0
   canAttack: 0
   SightPos: {fileID: 1553160367}

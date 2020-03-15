@@ -18,7 +18,7 @@ public class diamondScript : MonoBehaviour
 
     public void OnDestroy()
     {
-        Destroy(gameObject);
+        Destroy(gameObject); // Animation event
 
     }
 }

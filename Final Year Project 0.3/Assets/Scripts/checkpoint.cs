@@ -6,27 +6,27 @@ using UnityEngine.UI;
 
 public class checkpoint : MonoBehaviour
 {
-    public Vector2 lastPos;
-    public bool isDead;
-    public Image hitEffect;
-    float hitTimer;
-    float freezeTimer;
+    public Vector2 lastPos; // Players last position
 
+    public bool isDead; // Whether player is dead
+
+    public Image hitEffect; // Hit UI
+
+    float freezeTimer; // Freeze game when the player is hit
 
     // Start is called before the first frame update
     void Start()
     {
-        isDead = false;
-        hitEffect.enabled = false;
-        hitTimer = 1f;
-        freezeTimer = 1f;
+        isDead = false; // Setting bool
+        hitEffect.enabled = false; // Disabling the UI
+        freezeTimer = 1f; // Setting value for how long to freeze the game
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (isDead)
+        if (isDead) // What to do if player dies (freeze game and reduce timer)
         {
             freezeTimer -= Time.fixedDeltaTime;
             Time.timeScale = 0;
@@ -34,7 +34,7 @@ public class checkpoint : MonoBehaviour
 
         }
 
-        if(freezeTimer <= 0)
+        if(freezeTimer <= 0) // What to do when timer reaches 0 (reset variables, send player to checkpoint)
         {
             Time.timeScale = 1;
             transform.position = lastPos;
@@ -47,13 +47,13 @@ public class checkpoint : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("CheckPoint"))
+        if (collision.CompareTag("CheckPoint")) // Setting last position when triggering a checkpoint
         {
             lastPos = collision.gameObject.transform.position;
 
         }
 
-        if (collision.CompareTag("Spike"))
+        if (collision.CompareTag("Spike")) // Player dies when touching obstacle
         {
             isDead = true;
             hitEffect.enabled = true;
@@ -62,7 +62,7 @@ public class checkpoint : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.tag == "Spike")
+        if(collision.gameObject.tag == "Spike") // Player dies when touching obstacle
         {
             isDead = true;
             hitEffect.enabled = true;

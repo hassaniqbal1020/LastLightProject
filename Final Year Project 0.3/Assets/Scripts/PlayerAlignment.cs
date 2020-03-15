@@ -6,17 +6,23 @@ using UnityEngine.UI;
 
 public class PlayerAlignment : MonoBehaviour
 {
-    public PlayerAttack attackRef;
     public Image Good;
     public Image Bad;
     public Image powerButton;
-    public string Alignment;
-    bool enable;
-    bool buttonEnable;
+
+    public float posNum;
     float DpadHorizontal;
     float fillAmount;
+
+    bool enable;
+    bool buttonEnable;
+
+    public PlayerAttack attackRef;
+
+    public string Alignment;
+
     public Animator diamondAnim;
-    public float posNum;
+
     int baseDamage;
 
     // Start is called before the first frame update
