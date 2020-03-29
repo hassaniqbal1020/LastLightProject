@@ -9,10 +9,10 @@ public class CharacterController2D : MonoBehaviour
 	[Range(0, .3f)] public float MovementSmoothing = .05f; // Movement smoothing 
 
 	public bool AirControl = false; // Whether or not the player can be controlled in the air	
-	public bool Grounded; // Is grounded or not   
+	public bool Grounded; // Is grounded or not
+	public bool canDoubleJump; // Is double jump available
 	private bool FacingRight = true; // Direction player is facing
-	private bool canDoubleJump; // Is double jump available
-					
+				
 	public Transform GroundCheck; // Check if touching ground						
 	public Transform CeilingCheck; // Check if touching ceiling	
 
@@ -27,7 +27,7 @@ public class CharacterController2D : MonoBehaviour
     private void Awake()
 	{
 		Rigidbody2D = GetComponent<Rigidbody2D>(); // Setting referance for players rigidbody 2D
-
+		canDoubleJump = true;
 	}
 
     private void Update()
@@ -92,6 +92,12 @@ public class CharacterController2D : MonoBehaviour
 			}
 		}
 		// If the player should jump
+		if (Grounded)
+		{
+			canDoubleJump = true;
+
+		}
+
 		if (jump)
 		{
             if (Grounded)

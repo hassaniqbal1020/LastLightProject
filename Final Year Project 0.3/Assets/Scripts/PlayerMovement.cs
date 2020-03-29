@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
 
     public float horizontal = 0f;
     bool jump = false;
+    bool falling = false;
     bool dash = false;
     bool onPlatform = false;
     bool onWater = false;
@@ -28,7 +29,6 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     public float ThrustForce;
 
-    public GameObject mouseRef;
     public GameObject shootRef;
     //public GameObject enemyRef;
     public GameObject shieldRef;
@@ -38,7 +38,7 @@ public class PlayerMovement : MonoBehaviour
 
     public MovingPlatform mPref;
 
-    //public Animator playerAnim;
+    public Animator playerAnim;
 
 
     public float Speed;
@@ -76,33 +76,47 @@ public class PlayerMovement : MonoBehaviour
             //Horizontal Movement
             horizontal = Input.GetAxisRaw("XboxLeftStickX") * Speed;
 
-            if (horizontal > 0 || horizontal < 0)
+
+            if (horizontal > 0 && controller.Grounded || horizontal < 0 && controller.Grounded)
             {
-                //playerAnim.SetFloat("Speed", 1f);
                 joyStickTut.enabled = false;
+                playerAnim.SetBool("isRunning", true);
+
 
             }
 
-            if (horizontal == 0)
+            if(horizontal == 0 && controller.Grounded)
             {
-                //playerAnim.SetFloat("Speed", 0);
-
+                playerAnim.SetBool("isRunning", false);
             }
 
             //Player Jump - Double Jump/Super Jump
             if (Input.GetButtonDown("Xbox_A") && onPlatform == false && onWater == false)
             {
+                if (controller.canDoubleJump)
+                {
+                    playerAnim.SetTrigger("LiftOff");
+                }
+                
                 jump = true;
-
             }
 
-            if (jump == true)
+            if (!controller.Grounded && rb.velocity.y > 0.1f)
             {
-                //playerAnim.SetBool("Jump", true);
-
-
+                playerAnim.SetBool("isJumping", true);
 
             }
+            else if (controller.Grounded)
+            {
+                playerAnim.SetBool("isJumping", false);
+                playerAnim.SetBool("isFalling", false);
+
+            }
+            else if(!controller.Grounded && rb.velocity.y < 0.1f)
+            {
+                playerAnim.SetBool("isFalling", true);
+            }
+
 
             //Player Dash
             if (Input.GetButtonDown("Xbox_X") && DashState == "nDash" && horizontal != 0)
@@ -206,13 +220,12 @@ public class PlayerMovement : MonoBehaviour
                 rb.AddForce(transform.right * ThrustForce, ForceMode2D.Impulse);
                 dash = false;
 
-
             }
             else if (horizontal < 0)
             {
                 rb.AddForce(transform.right * ThrustForce, ForceMode2D.Impulse);
                 dash = false;
-
+                
             }
 
         }
@@ -261,5 +274,4 @@ public class PlayerMovement : MonoBehaviour
 
         }
     }
-
 }
