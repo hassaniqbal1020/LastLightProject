@@ -6,6 +6,7 @@ public class GrapplingHook1 : MonoBehaviour
 {
     public float MaxDistance; // Max Distance of Hook
     public float DecreaseDistance; // Decrease length of hook 
+    public float currentActiveHook;
 
     public Transform[] Hooks; // Array of all hooks positions within game
     public Transform HookActive; // Position of currently active hook
@@ -40,13 +41,17 @@ public class GrapplingHook1 : MonoBehaviour
         {
             Debug.Log(Hook);
             //HookActive = null;
+            currentActiveHook = Vector3.Distance(Hook.position, transform.position);
+            Hook.gameObject.GetComponent<SpriteRenderer>().color = Color.yellow;
 
-            if (Vector3.Distance(Hook.position, transform.position) < 5) // If any hook is less than specified distance then hook becomes active
+            if (Vector3.Distance(Hook.position, transform.position) < 5.6f || Vector3.Distance(Hook.position, transform.position) < currentActiveHook) // If any hook is less than specified distance then hook becomes active
             {
-                Debug.Log("Yes");
+                Debug.Log(Vector3.Distance(Hook.position, transform.position));
                 HookActive = Hook;
+                HookActive.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
 
             }
+
 
         }
 
@@ -68,7 +73,7 @@ public class GrapplingHook1 : MonoBehaviour
                 PlayerJoint.distance = Vector2.Distance(HookSpawnPos.position, hit.point); //Set distance between player and Rigidbody2D
                 PlayerJoint.connectedAnchor = hit.point - new Vector2(hit.collider.transform.position.x, hit.collider.transform.position.y); // Point connects to the edge of hook rather than the middle
 
-                // Enabling line renderer and setting position and playing animation
+                // Enabling line renderer, setting position and playing animation
                 HookLine.enabled = true; 
                 HookLine.SetPosition(0, HookSpawnPos.position);
                 HookLine.SetPosition(1, hit.point);

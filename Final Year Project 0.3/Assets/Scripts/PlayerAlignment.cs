@@ -6,13 +6,10 @@ using UnityEngine.UI;
 
 public class PlayerAlignment : MonoBehaviour
 {
-    public Image Good;
-    public Image Bad;
     public Image powerButton;
 
     public float posNum;
     float DpadHorizontal;
-    float fillAmount;
 
     bool enable;
     bool buttonEnable;
@@ -29,10 +26,7 @@ public class PlayerAlignment : MonoBehaviour
     void Start()
     {
         Alignment = "Neutral";
-        Good.fillAmount = 0.5f;
-        Bad.fillAmount = 0.5f;
         enable = false;
-        fillAmount = 0.1f;
         powerButton.enabled = false;
         posNum = 0;
         baseDamage = 5;
@@ -70,8 +64,6 @@ public class PlayerAlignment : MonoBehaviour
         //show UI
         if (DpadHorizontal == 1 && buttonEnable)
         {
-            Good.fillAmount += fillAmount;
-            Bad.fillAmount -= fillAmount;
             buttonEnable = false;
             enable = false;
             powerButton.enabled = false;
@@ -80,8 +72,6 @@ public class PlayerAlignment : MonoBehaviour
         }
         else if (DpadHorizontal == -1 && buttonEnable)
         {
-            Good.fillAmount -= fillAmount;
-            Bad.fillAmount += fillAmount;
             buttonEnable = false;
             enable = false;
             powerButton.enabled = false;

@@ -6,6 +6,7 @@ public class EnemyScript : MonoBehaviour
 {
     public float maxDistance; // Max distance of the enemy raycast
     public float attackTime; // Time until next attack
+    public float waitTime;
     public float activeStateTimer; // Timer for when enemy becomes active before attacking
     public float speed; // Walking speed of the player
     public float AttackSpeed; // Speed of enemy when in attacking state
@@ -13,25 +14,31 @@ public class EnemyScript : MonoBehaviour
     public float attackRange; // Range of enemy attack
     public float AttackStateTimer; // Timer for enemy attack state
     public float WalkRange; // Radius of floor collider
+    public float WallRange; // Radius of wall collider
 
     [SerializeField] private bool EnemyFacingRight; // Direction the enemy is facing
     public bool canAttack; // Whether enemy can attack or not
+    public bool canRun;
+    public bool enemyNear;
     bool FacingRight; // Direction the enemy is facing
     bool isFloor; // Whether floor is in front of the enemy
     bool Playerhit; // Whether enemy has hit the player
+    bool isWall; // Whether wall is in fornt of enemy
 
     public Transform SightPos; // Raycast point of origin
     public Transform attackPoint; // Point of origin for enemy hit box
     public Transform targetLocation; // Player loacation
     public Transform GroundR; // Point of origin for floor collider
+    public Transform WallCheck; // Point of origin for wall collider
 
     public PlayerMovement pRef; // Referance for player movement script
-    public PlayerLife lifeRef; // Referance for player life script
 
     public int maxHealth = 100; // Enemy health
-    int currentHealth; // Enemy current health
+    public int currentHealth; // Enemy current health
 
-    public LayerMask playerMask; // Layer for collider and reaycast detection
+    public LayerMask playerMask; // Layer for collider and raycast detection
+    public LayerMask WallLayerMask; // Layer for wall collision
+    public LayerMask HideMask; //Layer for detection
 
     public Animator enemyAnim; // Enemy animation
 
@@ -46,6 +53,10 @@ public class EnemyScript : MonoBehaviour
         EnemyFacingRight = true; // Setting enemies direction
         targetLocation = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>(); // Setting enemy target
         canAttack = true; // Setting enemy ability to attack
+        canRun = true;
+        pRef = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>(); // Setting ref to player script
+
+
     }
 
     // Update is called once per frame
@@ -67,7 +78,7 @@ public class EnemyScript : MonoBehaviour
 
         if(attackTime <= 0) // Resetting enemy attack
         {
-            attackTime = 2;
+            attackTime = 1f;
             canAttack = true;
             GetComponentInChildren<enemyAttackTimer>().attack = true;
 
@@ -81,6 +92,11 @@ public class EnemyScript : MonoBehaviour
 
         if(currentHealth <= 0)
         {
+            if(pRef.LifeRadial.fillAmount < 1)
+            {
+                pRef.LifeRadial.fillAmount += 0.1f;
+            }
+
             Die();
 
         }
@@ -90,13 +106,14 @@ public class EnemyScript : MonoBehaviour
     {
         Debug.DrawRay(SightPos.position, SightPos.right); // Make raycast visible within sceneview
 
-        RaycastHit2D hit = Physics2D.Raycast(SightPos.position, SightPos.right, maxDistance, playerMask); // Setting raycast
+        RaycastHit2D hit = Physics2D.Raycast(SightPos.position, SightPos.right, maxDistance, playerMask); // Setting raycast for player detection
+        RaycastHit2D hide = Physics2D.Raycast(SightPos.position, SightPos.right, maxDistance, HideMask); // Setting raycast for detection
 
-        if (hit.collider != null && pRef.visible) // If detects the player, becomes active
+        if (hit.collider != null && hide.collider == null && pRef.visible) // If detects the player, becomes active
         {
             Debug.Log("PlayerHit");
             gameObject.tag = ("EnemyActive");
-
+            
         }
 
         if (gameObject.tag == "EnemyActive") // Active time begins to countdown
@@ -115,7 +132,7 @@ public class EnemyScript : MonoBehaviour
         if(activeStateTimer <= 0 && hit.collider != null) // If player is still within sights when the timer eaches 0 then enemy will enter its attack state
         {
             gameObject.tag = ("EnemyAttack");
-
+            AttackStateTimer = 2;
         }
 
         if (gameObject.tag == ("EnemyAttack")) // Enemy is within attack state 
@@ -133,6 +150,7 @@ public class EnemyScript : MonoBehaviour
                 gameObject.tag = ("EnemyIdle");
                 activeStateTimer = 1;
                 AttackStateTimer = 2;
+                currentHealth = maxHealth;
             }
 
         }
@@ -149,7 +167,13 @@ public class EnemyScript : MonoBehaviour
             if(playerHitBox != null && canAttack) // If player is within hit box and enemy is able to attack, then enemy will attack
             {
                 enemyAnim.SetTrigger("eAttack"); // Play enemy attack animation
-                
+                enemyNear = true;
+
+            }
+            else
+            {
+                enemyNear = false;
+
             }
 
         }
@@ -165,6 +189,14 @@ public class EnemyScript : MonoBehaviour
         
         Collider2D hitGroundR = Physics2D.OverlapCircle(GroundR.position, WalkRange, 1 << 11); // Setting ground detection
 
+        Collider2D WallHit = Physics2D.OverlapCircle(WallCheck.position, WallRange, WallLayerMask); // Setting wall detection
+
+        if(WallHit != null)
+        {
+            isWall = true;
+
+        }
+
         if (hitGroundR != null) // Ground is detected
         {
             Debug.Log("HitGround");
@@ -179,18 +211,18 @@ public class EnemyScript : MonoBehaviour
             {
                 rb.velocity = new Vector3(-speed, 0f, 0f);
 
-                if (hitGroundR == null) // Turn if no ground
+                if (hitGroundR == null || hitGroundR != null && WallHit != null) // Turn if no ground
                 {
                     Flip();
                     Debug.Log("NoGroundL");
                 }
 
             }
-            else if (EnemyFacingRight) //Moving Right
+            else if (EnemyFacingRight ) //Moving Right
             {
                 rb.velocity = new Vector3(speed, 0f, 0f);
 
-                if (hitGroundR == null) // Turn if no ground 
+                if (hitGroundR == null || hitGroundR != null && WallHit != null) // Turn if no ground 
                 {
                     Flip();
                     Debug.Log("NoGroundR");
@@ -209,6 +241,9 @@ public class EnemyScript : MonoBehaviour
                 {
                     Flip();
 
+                }else if(hitGroundR == null)
+                {
+                    Flip();
                 }
             }else if (!EnemyFacingRight) //Turn if player is behind enemy
             {
@@ -216,15 +251,41 @@ public class EnemyScript : MonoBehaviour
                 {
                     Flip();
                 }
-                
+                else if (hitGroundR == null)
+                {
+                    Flip();
+                }
+
             }
 
-            if (Vector2.Distance(transform.position, targetLocation.position) > stopDistance) // Enemy running speed when in attack state
+            if (!canRun)
             {
-                transform.position = Vector2.MoveTowards(transform.position, new Vector2(targetLocation.position.x, transform.position.y), AttackSpeed * Time.deltaTime);
+                waitTime -= Time.deltaTime;
 
             }
-            
+
+            if(waitTime <= 0)
+            {
+                canRun = true;
+                waitTime = 1.2f;
+            }
+
+            if(hitGroundR != null && canRun)
+            {
+                if (Vector2.Distance(transform.position, targetLocation.position) > stopDistance) // Enemy running speed when in attack state
+                {
+                    transform.position = Vector2.MoveTowards(transform.position, new Vector2(targetLocation.position.x, transform.position.y), AttackSpeed * Time.deltaTime);
+
+                }
+
+            }else if(hitGroundR == null)
+            {
+                gameObject.tag = ("EnemyIdle");
+                currentHealth = maxHealth;
+                activeStateTimer = 1;
+                AttackStateTimer = 2;
+            }
+
 
         }
 
@@ -269,5 +330,6 @@ public class EnemyScript : MonoBehaviour
 
         Gizmos.DrawWireSphere(GroundR.position, WalkRange); // Draw floor detection box
         Gizmos.DrawWireSphere(attackPoint.position, attackRange); // Draw hit box
+        Gizmos.DrawWireSphere(WallCheck.position, WallRange); // Draw hit box
     }
 }

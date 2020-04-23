@@ -9,7 +9,7 @@ public class Bullet : MonoBehaviour
     public float Brange; //range of wall hit collider and interact layer collider
     public float attackRange; //range of collider for attacking enemies
 
-    public LayerMask interactLayers; //specified layers ofr bullet to interact with
+    public LayerMask interactLayers; //specified layers for bullet to interact with
     public LayerMask stickLayer; //specified layers for bullets to stick to
     public LayerMask enemyLayer; //specified layers for bullet to hit enemies with
 

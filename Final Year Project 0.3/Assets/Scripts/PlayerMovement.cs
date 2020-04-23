@@ -9,10 +9,9 @@ public class PlayerMovement : MonoBehaviour
 
     public float horizontal = 0f;
     bool jump = false;
-    bool falling = false;
     bool dash = false;
     bool onPlatform = false;
-    bool onWater = false;
+    public bool hitByEnemy = false;
     public bool rPickup;
     public bool mPickup;
     public bool visible;
@@ -23,11 +22,13 @@ public class PlayerMovement : MonoBehaviour
     public string DashState;
 
     public Image joyStickTut;
+    public Image LifeRadial;
 
     DistanceJoint2D DisJoint;
 
     private Rigidbody2D rb;
     public float ThrustForce;
+    public float hitForce;
 
     public GameObject shootRef;
     //public GameObject enemyRef;
@@ -55,6 +56,8 @@ public class PlayerMovement : MonoBehaviour
 
         visible = true;
 
+        LifeRadial.fillAmount = 1f;
+        
     }
 
     // Update is called once per frame
@@ -62,6 +65,15 @@ public class PlayerMovement : MonoBehaviour
     {
       if(PlayerState == "Play")
         {
+            if(LifeRadial.fillAmount == 0)
+            {
+                GetComponent<checkpoint>().isDeadNoLife = true;
+
+            }else if(LifeRadial.fillAmount >= 1)
+            {
+                GetComponent<checkpoint>().isDeadNoLife = false;
+            }
+
             if (GetComponent<GrapplingHook1>().ActiveState == "InActive")
             {
                 GrapHookActive = "InActive";
@@ -91,7 +103,7 @@ public class PlayerMovement : MonoBehaviour
             }
 
             //Player Jump - Double Jump/Super Jump
-            if (Input.GetButtonDown("Xbox_A") && onPlatform == false && onWater == false)
+            if (Input.GetButtonDown("Xbox_A") && onPlatform == false )
             {
                 if (controller.canDoubleJump)
                 {
@@ -200,7 +212,7 @@ public class PlayerMovement : MonoBehaviour
                 mPref.Active = true;
 
             }
-        }
+      }
 
 
     }
@@ -230,6 +242,13 @@ public class PlayerMovement : MonoBehaviour
 
         }
 
+        if (hitByEnemy)
+        {
+            rb.AddForce(transform.right * -hitForce, ForceMode2D.Impulse);
+            transform.position += new Vector3(0, 0.1f, 0);
+            hitByEnemy = false;
+        }
+
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -256,22 +275,25 @@ public class PlayerMovement : MonoBehaviour
             
 
         }
-
-        if (collision.gameObject.tag == "Waterfall")
-        {
-            onWater = false;
-        }
-            
     }
 
-    private void OnCollisionStay2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Waterfall")
+        if (collision.CompareTag("Steam"))
         {
-            rb.velocity = new Vector3(-20, 0, 0);
-            onWater = true;
+            visible = false;
+
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Steam"))
+        {
+            visible = true;
 
 
         }
     }
+
 }

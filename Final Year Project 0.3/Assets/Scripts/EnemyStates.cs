@@ -10,7 +10,7 @@ public class EnemyStates : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        mRef = GameObject.FindGameObjectWithTag("Main").GetComponent<Main>();
     }
 
     // Update is called once per frame

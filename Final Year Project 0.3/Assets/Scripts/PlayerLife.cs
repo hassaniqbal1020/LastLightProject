@@ -16,7 +16,7 @@ public class PlayerLife : MonoBehaviour
     void Start()
     {
         LifeNum = 6f;
-        lTimer = 2f;
+        lTimer = 4f;
         rechargeState = "Active";
         enable = false;
 
@@ -40,10 +40,10 @@ public class PlayerLife : MonoBehaviour
 
         if (enable)
         {
-            if (Input.GetButtonDown("Xbox_B"))
+            if (Input.GetButtonDown("Xbox_B") && LifeNum > 0)
             {
                 LifeNum -= 1;
-                lTimer = 2f;
+                lTimer = 4f;
 
             }
         }
@@ -57,7 +57,7 @@ public class PlayerLife : MonoBehaviour
 
         if(lTimer <= 0)
         {
-            lTimer = 2f;
+            lTimer = 4f;
             LifeNum += 1;
 
         }
@@ -65,7 +65,17 @@ public class PlayerLife : MonoBehaviour
         if(LifeNum >= 6)
         {
             LifeNum = 6;
-            lTimer = 2f;
+            lTimer = 4f;
+
+        }
+
+        if(LifeNum < 0)
+        {
+            
+
+        }else if(LifeNum >= 0)
+        {
+            
 
         }
     }
@@ -82,6 +92,7 @@ public class PlayerLife : MonoBehaviour
             lAnim.SetBool("1", false);
             lAnim.SetBool("0", false);
             lAnim.SetBool("Recharge", false);
+            
 
 
         }

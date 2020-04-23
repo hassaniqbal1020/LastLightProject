@@ -11,7 +11,7 @@ public class CharacterController2D : MonoBehaviour
 	public bool AirControl = false; // Whether or not the player can be controlled in the air	
 	public bool Grounded; // Is grounded or not
 	public bool canDoubleJump; // Is double jump available
-	private bool FacingRight = true; // Direction player is facing
+	public bool FacingRight = true; // Direction player is facing
 				
 	public Transform GroundCheck; // Check if touching ground						
 	public Transform CeilingCheck; // Check if touching ceiling	

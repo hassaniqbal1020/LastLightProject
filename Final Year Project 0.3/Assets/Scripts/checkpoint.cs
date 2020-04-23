@@ -10,9 +10,13 @@ public class checkpoint : MonoBehaviour
 
     public bool isDead; // Whether player is dead
 
+    public bool isDeadNoLife;
+
     public Image hitEffect; // Hit UI
 
-    float freezeTimer; // Freeze game when the player is hit
+    [SerializeField]float freezeTimer; // Freeze game when the player is hit
+
+    public PlayerLife lifeRef;
 
     // Start is called before the first frame update
     void Start()
@@ -26,12 +30,12 @@ public class checkpoint : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isDead) // What to do if player dies (freeze game and reduce timer)
+        if (isDead || isDeadNoLife) // What to do if player dies (freeze game and reduce timer)
         {
             freezeTimer -= Time.fixedDeltaTime;
             Time.timeScale = 0;
-
-
+            hitEffect.enabled = true;
+            
         }
 
         if(freezeTimer <= 0) // What to do when timer reaches 0 (reset variables, send player to checkpoint)
@@ -41,8 +45,11 @@ public class checkpoint : MonoBehaviour
             isDead = false;
             freezeTimer = 1f;
             hitEffect.enabled = false;
+            lifeRef.LifeNum = 6;
+            lifeRef.rechargeState = "Active";
+            GetComponent<PlayerMovement>().LifeRadial.fillAmount = 1f;
         }
-        
+
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -56,7 +63,7 @@ public class checkpoint : MonoBehaviour
         if (collision.CompareTag("Spike")) // Player dies when touching obstacle
         {
             isDead = true;
-            hitEffect.enabled = true;
+            
         }
     }
 
@@ -65,7 +72,7 @@ public class checkpoint : MonoBehaviour
         if(collision.gameObject.tag == "Spike") // Player dies when touching obstacle
         {
             isDead = true;
-            hitEffect.enabled = true;
+
         }
     }
 

@@ -20,6 +20,11 @@ TagManager:
   - Melee
   - LightOrb
   - EnemyAttack
+  - EnemyWeapon
+  - LeftSlide
+  - Steam
+  - PlayerLife
+  - Main
   layers:
   - Default
   - TransparentFX
@@ -36,7 +41,7 @@ TagManager:
   - Wall
   - ObstacleDes
   - Bullet
-  - 
+  - Hide
   - 
   - 
   - 
