@@ -8,7 +8,7 @@ public class MovingPlatform : MonoBehaviour
     public float speed;
     public Transform startPos;
 
-    Vector3 nextPos;
+    public Vector3 nextPos;
 
     public bool Active = false;
 

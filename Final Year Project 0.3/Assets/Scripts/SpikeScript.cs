@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SpikeScript : MonoBehaviour
 {
-    bool dead;
+    public bool dead;
     public GameObject deathEffect;
 
 
@@ -27,11 +27,7 @@ public class SpikeScript : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.tag == "Bullet")
-        {
-            dead = true;
-
-        }
+      
     }
 
     IEnumerator Die()

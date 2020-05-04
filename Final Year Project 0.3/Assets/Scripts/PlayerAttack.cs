@@ -4,17 +4,13 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-    public Animator swordAnimator;
     public PlayerLife UIref;
-    public Transform attackPoint;
-    public float attackRange = 0.5f;
-    public LayerMask enemyLayers;
-    public int attackDamage = 25;
+
     //public GameObject pRef;
 
     void Start()
     {
-        attackDamage = 25;
+
 
     }
 
@@ -30,42 +26,15 @@ public class PlayerAttack : MonoBehaviour
                 Debug.Log("B_Pressed");
             }
 
-
         }
         
-
     }
 
     void Attack()
     {
-        //playnanim
-        swordAnimator.SetTrigger("Attack");
-
-
-        //enemies
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
-
-        //damage
-        foreach(Collider2D enemy in hitEnemies)
-        {
-            Debug.Log("hit" + enemy.name);
-            enemy.GetComponent<EnemyScript>().TakeDamage(attackDamage);
-
-
-
-        }
-
+        GetComponentInParent<PlayerMovement>().playerAnim.SetTrigger("isAttack");
 
     }
 
-    private void OnDrawGizmosSelected()
-    {
-        if(attackPoint == null)
-        {
-            return;
 
-        }
-        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
-
-    }
 }

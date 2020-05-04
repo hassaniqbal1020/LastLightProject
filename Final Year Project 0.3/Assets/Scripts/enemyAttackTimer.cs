@@ -23,6 +23,7 @@ public class enemyAttackTimer : MonoBehaviour
             Debug.Log("eHit");
             GetComponentInParent<EnemyScript>().canRun = false;
             pRef.hitByEnemy = true;
+            pRef.timeFreeze = true;
 
         }
         

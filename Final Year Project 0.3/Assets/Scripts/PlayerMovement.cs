@@ -37,12 +37,20 @@ public class PlayerMovement : MonoBehaviour
 
     public string PlayerState;
 
-    public MovingPlatform mPref;
+    public GameObject mPref;
 
     public Animator playerAnim;
 
+    public Image hitEffect; // Hit UI
 
     public float Speed;
+    public float freezeTimer; // Freeze game when the player is hit
+    public bool timeFreeze;
+
+    public Sprite armSwordSprite;
+    public Sprite armGunSprite;
+    public GameObject armSprite;
+
 
     // Start is called before the first frame update
     void Start()
@@ -57,13 +65,30 @@ public class PlayerMovement : MonoBehaviour
         visible = true;
 
         LifeRadial.fillAmount = 1f;
-        
+        hitEffect.enabled = false;
+        freezeTimer = 1f; // Setting value for how long to freeze the game
+
     }
 
     // Update is called once per frame
     void Update()
     {
-      if(PlayerState == "Play")
+        if (timeFreeze)
+        {
+            freezeTimer -= Time.fixedDeltaTime;
+            Time.timeScale = 0;
+            hitEffect.enabled = true;
+        }
+
+        if (freezeTimer <= 0)
+        {
+            Time.timeScale = 1;
+            hitEffect.enabled = false;
+            timeFreeze = false;
+            freezeTimer = 1f;
+        }
+
+        if (PlayerState == "Play")
         {
             if(LifeRadial.fillAmount == 0)
             {
@@ -157,13 +182,6 @@ public class PlayerMovement : MonoBehaviour
 
             }
 
-            if (Input.GetAxisRaw("XboxLeftTrigger") == 1)
-            {
-                InventoryNumber = 0f;
-
-            }
-
-
             //Item select
             if (InventoryNumber > 2f)
             {
@@ -171,11 +189,10 @@ public class PlayerMovement : MonoBehaviour
 
             }
 
-            //print(horizontal);
-
             if (InventoryNumber == 2f && mPickup)
             {
                 SwordRef.SetActive(true);
+                armSprite.GetComponent<SpriteRenderer>().sprite = armSwordSprite;
 
             }
             else
@@ -187,32 +204,27 @@ public class PlayerMovement : MonoBehaviour
             if (InventoryNumber == 1f && rPickup)
             {
                 shootRef.SetActive(true);
+                armSprite.GetComponent<SpriteRenderer>().sprite = armGunSprite;
+                playerAnim.SetBool("isGun", true);
 
             }
             else
             {
                 shootRef.SetActive(false);
-
-            }
-
-            if (InventoryNumber == 0f)
-            {
-                shieldRef.SetActive(true);
-
-            }
-            else
-            {
-                shieldRef.SetActive(false);
+                playerAnim.SetBool("isGun", false);
 
             }
 
 
             if (Input.GetButton("Xbox_Y") && onPlatform == true)
             {
-                mPref.Active = true;
+                mPref.GetComponentInChildren<MovingPlatform>().Active = true;
 
             }
-      }
+
+
+            
+        }
 
 
     }
@@ -247,7 +259,11 @@ public class PlayerMovement : MonoBehaviour
             rb.AddForce(transform.right * -hitForce, ForceMode2D.Impulse);
             transform.position += new Vector3(0, 0.1f, 0);
             hitByEnemy = false;
+            playerAnim.SetTrigger("isHit");
         }
+
+
+
 
     }
 

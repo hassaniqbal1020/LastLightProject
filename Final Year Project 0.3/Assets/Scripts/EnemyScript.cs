@@ -33,7 +33,7 @@ public class EnemyScript : MonoBehaviour
 
     public PlayerMovement pRef; // Referance for player movement script
 
-    public int maxHealth = 100; // Enemy health
+    public int maxHealth = 150; // Enemy health
     public int currentHealth; // Enemy current health
 
     public LayerMask playerMask; // Layer for collider and raycast detection
@@ -42,7 +42,7 @@ public class EnemyScript : MonoBehaviour
 
     public Animator enemyAnim; // Enemy animation
 
-    private Rigidbody2D rb; // Referance to enemy rigidbody 2D
+    public Rigidbody2D rb; // Referance to enemy rigidbody 2D
 
     // Start is called before the first frame update
     void Start()
@@ -78,7 +78,7 @@ public class EnemyScript : MonoBehaviour
 
         if(attackTime <= 0) // Resetting enemy attack
         {
-            attackTime = 1f;
+            attackTime = 1.5f;
             canAttack = true;
             GetComponentInChildren<enemyAttackTimer>().attack = true;
 
@@ -125,7 +125,7 @@ public class EnemyScript : MonoBehaviour
         if(activeStateTimer <= 0 && hit.collider == null && gameObject.tag != ("EnemyAttack")) // Player is no longer within sights and timer reaches 0, returns to idle state
         {
             gameObject.tag = ("EnemyIdle");
-            activeStateTimer = 1;
+            activeStateTimer = 0.5f;
 
         }
 
@@ -148,9 +148,8 @@ public class EnemyScript : MonoBehaviour
             if(AttackStateTimer <= 0) // If timer reaches 0 then reset the enemy state
             {
                 gameObject.tag = ("EnemyIdle");
-                activeStateTimer = 1;
+                activeStateTimer = 0.5f;
                 AttackStateTimer = 2;
-                currentHealth = maxHealth;
             }
 
         }
@@ -281,8 +280,7 @@ public class EnemyScript : MonoBehaviour
             }else if(hitGroundR == null)
             {
                 gameObject.tag = ("EnemyIdle");
-                currentHealth = maxHealth;
-                activeStateTimer = 1;
+                activeStateTimer = 0.5f;
                 AttackStateTimer = 2;
             }
 

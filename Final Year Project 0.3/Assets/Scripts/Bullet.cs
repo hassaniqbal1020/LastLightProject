@@ -50,6 +50,7 @@ public class Bullet : MonoBehaviour
         if(bulletHit != null) //what happens when the bullet hits an object on the interaction layer
         {
             Destroy(gameObject);
+            bulletHit.GetComponent<SpikeScript>().dead = true;
 
         }
 

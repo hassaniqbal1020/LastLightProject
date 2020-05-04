@@ -14,7 +14,7 @@ public class PlayerAlignment : MonoBehaviour
     bool enable;
     bool buttonEnable;
 
-    public PlayerAttack attackRef;
+    public AttackFunction attackRef;
 
     public string Alignment;
 
