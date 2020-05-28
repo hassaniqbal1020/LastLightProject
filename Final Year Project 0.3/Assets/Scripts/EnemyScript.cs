@@ -16,6 +16,7 @@ public class EnemyScript : MonoBehaviour
     public float WalkRange; // Radius of floor collider
     public float WallRange; // Radius of wall collider
     public float hurtTimer; // Timer for when enemy is hurt
+    public float floorTimer;
 
     [SerializeField] private bool EnemyFacingRight; // Direction the enemy is facing
     public bool canAttack; // Whether enemy can attack or not
@@ -23,7 +24,7 @@ public class EnemyScript : MonoBehaviour
     public bool enemyNear; // if player is near
     public bool hitByPlayer; // if hit by player
     bool FacingRight; // Direction the enemy is facing
-    bool isFloor; // Whether floor is in front of the enemy
+    public bool isFloor; // Whether floor is in front of the enemy
     bool Playerhit; // Whether enemy has hit the player
     bool isWall; // Whether wall is in fornt of enemy
 
@@ -58,6 +59,7 @@ public class EnemyScript : MonoBehaviour
         canRun = true;
         pRef = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>(); // Setting ref to player script
         hurtTimer = 1f;
+        floorTimer = 0.2f;
 
 
     }
@@ -236,8 +238,20 @@ public class EnemyScript : MonoBehaviour
         {
 
             isFloor = true;
+            floorTimer = 0.2f;
+            speed = 1.7f;
+
+        }else if(hitGroundR == null)
+        {
+            isFloor = false;
+            floorTimer -= Time.deltaTime;
         }
-        
+
+        if (floorTimer <= 0 && !isFloor)
+        {
+            speed = 0;
+        }
+
         if (gameObject.tag == "EnemyIdle" && gameObject.tag != "EnemyStun") // Walking when in an idle state
         {
             canAttack = true;
@@ -248,9 +262,9 @@ public class EnemyScript : MonoBehaviour
                 {
                     rb.velocity = new Vector3(-speed, 0f, 0f);
 
-                    if (hitGroundR == null || hitGroundR != null && WallHit != null) // Turn if no ground
+                    if (hitGroundR == null && floorTimer > 0 || hitGroundR != null && WallHit != null && floorTimer > 0) // Turn if no ground
                     {
-                        Flip();
+                        Flip(true); 
 
                     }
 
@@ -259,9 +273,9 @@ public class EnemyScript : MonoBehaviour
                 {
                     rb.velocity = new Vector3(speed, 0f, 0f);
 
-                    if (hitGroundR == null || hitGroundR != null && WallHit != null) // Turn if no ground 
+                    if (hitGroundR == null && floorTimer > 0 || hitGroundR != null && WallHit != null && floorTimer > 0) // Turn if no ground 
                     {
-                        Flip();
+                        Flip(true);
 
                     }
 
@@ -278,21 +292,21 @@ public class EnemyScript : MonoBehaviour
             {
                 if (targetLocation.position.x < gameObject.transform.position.x)
                 {
-                    Flip();
+                    Flip(true);
 
                 }else if(hitGroundR == null)
                 {
-                    Flip();
+                    Flip(true);
                 }
             }else if (!EnemyFacingRight) //Turn if player is behind enemy
             {
                 if (targetLocation.position.x > gameObject.transform.position.x)
                 {
-                    Flip();
+                    Flip(true);
                 }
                 else if (hitGroundR == null)
                 {
-                    Flip();
+                    Flip(true);
                 }
 
             }
@@ -339,10 +353,13 @@ public class EnemyScript : MonoBehaviour
 
     }
 
-    void Flip() // Change direction
+    public void Flip(bool enableFlip) // Change direction
     {
-        EnemyFacingRight = !EnemyFacingRight;
+        if (enableFlip)
+        {
+            EnemyFacingRight = !EnemyFacingRight;
 
+        }
 
         transform.Rotate(0, 180, 0);
         //HealthBar.transform.Rotate(0, 180, 0);

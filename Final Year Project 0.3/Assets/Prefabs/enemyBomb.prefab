@@ -151,7 +151,7 @@ MonoBehaviour:
   PlayerLayer:
     serializedVersion: 2
     m_Bits: 256
-  BlastRange: 0.7
+  BlastRange: 0.6
   BlastDamage: 0
   hitEffect: {fileID: 439663188314491117, guid: 1b983ccdf88a722469110ea40dc1ca83,
     type: 3}

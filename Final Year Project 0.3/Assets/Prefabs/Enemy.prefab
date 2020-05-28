@@ -424,7 +424,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 3
+  m_GravityScale: 4
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -496,6 +496,7 @@ MonoBehaviour:
   WalkRange: 0.1
   WallRange: 0.1
   hurtTimer: 0
+  floorTimer: 0
   EnemyFacingRight: 0
   canAttack: 0
   canRun: 0
@@ -514,7 +515,7 @@ MonoBehaviour:
     m_Bits: 256
   WallLayerMask:
     serializedVersion: 2
-    m_Bits: 36864
+    m_Bits: 45056
   HideMask:
     serializedVersion: 2
     m_Bits: 32768

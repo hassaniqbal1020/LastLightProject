@@ -236,7 +236,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hitEffect: {fileID: 439663188314491117, guid: 1b983ccdf88a722469110ea40dc1ca83,
     type: 3}
-  speed: 2
+  speed: 1
   attackRange: 0.25
   playerLayer:
     serializedVersion: 2
