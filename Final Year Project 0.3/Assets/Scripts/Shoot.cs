@@ -25,6 +25,7 @@ public class Shoot : MonoBehaviour
             {
                 Instantiate(bRef, transform.position, transform.rotation);
                 shootMetre -= 1f;
+                UIref.atkAnimEnable = true;
 
 
             }

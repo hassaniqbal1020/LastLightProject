@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 
 public class checkpoint : MonoBehaviour
 {
-    public Vector2 lastPos; // Players last position
-
     public bool isDead; // Whether player is dead
 
     public bool isDeadNoLife;
@@ -16,38 +15,42 @@ public class checkpoint : MonoBehaviour
 
     [SerializeField]float freezeTimer; // Freeze game when the player is hit
 
-    public PlayerLife lifeRef;
+    public Main mRef;
+
+
 
     // Start is called before the first frame update
     void Start()
     {
         isDead = false; // Setting bool
         hitEffect.enabled = false; // Disabling the UI
-        freezeTimer = 1f; // Setting value for how long to freeze the game
+        freezeTimer = 1.5f; // Setting value for how long to freeze the game
+        mRef = GameObject.FindGameObjectWithTag("Main").GetComponent<Main>();
+        transform.position = mRef.LastPos;
 
     }
 
     // Update is called once per frame
     void Update()
     {
+
+
         if (isDead || isDeadNoLife) // What to do if player dies (freeze game and reduce timer)
         {
             freezeTimer -= Time.fixedDeltaTime;
             Time.timeScale = 0;
             hitEffect.enabled = true;
-            
+
         }
 
-        if(freezeTimer <= 0) // What to do when timer reaches 0 (reset variables, send player to checkpoint)
+        if (freezeTimer <= 0) // What to do when timer reaches 0 (reset variables, send player to checkpoint)
         {
             Time.timeScale = 1;
-            transform.position = lastPos;
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             isDead = false;
-            freezeTimer = 1f;
+            freezeTimer = 1.5f;
             hitEffect.enabled = false;
-            lifeRef.LifeNum = 6;
-            lifeRef.rechargeState = "Active";
-            GetComponent<PlayerMovement>().LifeRadial.fillAmount = 1f;
+
         }
 
     }
@@ -56,7 +59,7 @@ public class checkpoint : MonoBehaviour
     {
         if (collision.CompareTag("CheckPoint")) // Setting last position when triggering a checkpoint
         {
-            lastPos = collision.gameObject.transform.position;
+            mRef.LastPos = collision.gameObject.transform.position;
 
         }
 

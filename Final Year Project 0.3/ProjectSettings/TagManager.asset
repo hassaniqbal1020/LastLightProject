@@ -4,13 +4,10 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - ClimbWall
   - Bullet
   - Enemy
-  - mPlatform
   - Pos
   - Hook
-  - Waterfall
   - EnemyIdle
   - EnemyActive
   - CheckPoint
@@ -18,13 +15,27 @@ TagManager:
   - Interactable
   - Range
   - Melee
-  - LightOrb
   - EnemyAttack
   - EnemyWeapon
   - LeftSlide
   - Steam
   - PlayerLife
   - Main
+  - EnemyStun
+  - Boss
+  - OriginPoint
+  - PBUI
+  - DpadController
+  - BossTrig
+  - BossHpBar
+  - BossControl
+  - Room07
+  - WallBlock
+  - BossUI
+  - BossAttck
+  - Ground
+  - mPlatform
+  - WayPoint
   layers:
   - Default
   - TransparentFX
@@ -42,10 +53,10 @@ TagManager:
   - ObstacleDes
   - Bullet
   - Hide
-  - 
-  - 
-  - 
-  - 
+  - PowerCoreLayer
+  - BossLayer
+  - HomingEnemy
+  - Bullet
   - 
   - 
   - 

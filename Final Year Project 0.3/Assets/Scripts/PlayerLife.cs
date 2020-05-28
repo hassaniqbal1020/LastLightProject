@@ -10,6 +10,8 @@ public class PlayerLife : MonoBehaviour
     public string rechargeState;
     public PlayerMovement pRef;
     bool enable;
+    public bool atkAnimEnable;
+
 
 
     // Start is called before the first frame update
@@ -40,12 +42,13 @@ public class PlayerLife : MonoBehaviour
 
         if (enable)
         {
-            if (Input.GetButtonDown("Xbox_B") && LifeNum > 0)
+            if (atkAnimEnable)
             {
                 LifeNum -= 1;
                 lTimer = 1.5f;
-
+                atkAnimEnable = false;
             }
+           
         }
         
 

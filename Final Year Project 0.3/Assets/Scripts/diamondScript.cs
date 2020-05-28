@@ -1,24 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class diamondScript : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
+    public void Collected(bool hasCollected)
     {
-        
-    }
-
-    public void OnDestroy()
-    {
-        Destroy(gameObject); // Animation event
-
+        gameObject.SetActive(false);
     }
 }

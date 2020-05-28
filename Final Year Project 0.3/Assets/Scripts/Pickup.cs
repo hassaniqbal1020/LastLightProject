@@ -6,20 +6,17 @@ using UnityEngine.UI;
 
 public class Pickup : MonoBehaviour
 {
-    public GameObject pRef;
+    public Main mRef;
     public Text WeaponText;
     bool enable;
     bool collected;
 
-
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         enable = false;
         WeaponText.enabled = false;
         collected = false;
-
-
+        mRef = GameObject.FindGameObjectWithTag("Main").GetComponent<Main>();
     }
 
     // Update is called once per frame
@@ -27,11 +24,15 @@ public class Pickup : MonoBehaviour
     {
         if (enable && Input.GetButtonDown("Xbox_Y"))
         {
-            pRef.GetComponent<PlayerMovement>().rPickup = true;
-            pRef.GetComponent<PlayerMovement>().mPickup = true;
+            mRef.hasWeapons = true;
             WeaponText.enabled = true;
             collected = true;
 
+        }
+
+        if (mRef.hasWeapons)
+        {
+            gameObject.SetActive(false);
         }
     }
 

@@ -7,10 +7,25 @@ public class Main : MonoBehaviour
     public string MainState;
     public PlayerMovement pRef;
 
+    private static Main instance;
+    public Vector2 LastPos;
 
-    // Start is called before the first frame update
-    void Start()
+    public bool hasWeapons;
+
+    void Awake()
     {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(instance);
+
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
+
         MainState = "Play";
         pRef.PlayerState = "Play";
         Cursor.visible = false;
@@ -20,6 +35,14 @@ public class Main : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        pRef = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
+        
 
+        if (hasWeapons)
+        {
+            pRef.mPickup = true;
+            pRef.rPickup = true;
+
+        }
     }
 }

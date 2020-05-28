@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,6 +16,8 @@ public class PlayerMovement : MonoBehaviour
     public bool rPickup;
     public bool mPickup;
     public bool visible;
+
+    public int AttackPower;
 
     public float InventoryNumber = 1f;
     string GrapHookActive;
@@ -35,13 +38,20 @@ public class PlayerMovement : MonoBehaviour
     public GameObject shieldRef;
     public GameObject SwordRef;
 
+
     public string PlayerState;
 
     public GameObject mPref;
+    public GameObject Boss01;
+    public GameObject Room07;
+    public GameObject BossUI;
 
     public Animator playerAnim;
 
     public Image hitEffect; // Hit UI
+    public Image swordIcon;
+    public Image GunIcon;
+    public GameObject BossHPBarRef;
 
     public float Speed;
     public float freezeTimer; // Freeze game when the player is hit
@@ -50,11 +60,15 @@ public class PlayerMovement : MonoBehaviour
     public Sprite armSwordSprite;
     public Sprite armGunSprite;
     public GameObject armSprite;
+    public GameObject wayPointPlayer;
+
+    public float posTimer;
 
 
     // Start is called before the first frame update
     void Start()
     {
+
         rb = GetComponent<Rigidbody2D>();
 
         DisJoint = GetComponent<DistanceJoint2D>();
@@ -62,17 +76,53 @@ public class PlayerMovement : MonoBehaviour
         shootRef.SetActive(false);
         SwordRef.SetActive(false);
 
+        GunIcon.enabled = false;
+        swordIcon.enabled = false;
+
         visible = true;
 
         LifeRadial.fillAmount = 1f;
         hitEffect.enabled = false;
         freezeTimer = 1f; // Setting value for how long to freeze the game
+        BossHPBarRef.SetActive(false);
+        Boss01.SetActive(false);
+        posTimer = 0.05f;
 
     }
 
     // Update is called once per frame
     void Update()
     {
+        Boss01 = GameObject.FindGameObjectWithTag("BossControl");
+        Room07 = GameObject.FindGameObjectWithTag("Room07");
+        BossUI = GameObject.FindGameObjectWithTag("BossUI").transform.GetChild(0).gameObject;
+
+        if(posTimer > 0)
+        {
+            posTimer -= Time.deltaTime;
+        }
+        if(posTimer <= 0)
+        {
+            updatePlayerPos();
+
+            posTimer = 0.5f;
+
+
+        }
+        if (!Room07.transform.GetChild(0).gameObject.activeSelf)
+        {
+            if (BossUI.gameObject.activeSelf)
+            {
+                BossUI.SetActive(false);
+
+            }
+
+            if (Boss01.transform.GetChild(0).gameObject.activeSelf)
+            {
+                Boss01.transform.GetChild(0).gameObject.SetActive(false);
+            }
+        }
+
         if (timeFreeze)
         {
             freezeTimer -= Time.fixedDeltaTime;
@@ -88,13 +138,19 @@ public class PlayerMovement : MonoBehaviour
             freezeTimer = 1f;
         }
 
+        if (hitByEnemy)
+        {
+            hitByEnemy = false;
+            playerAnim.SetTrigger("isHit");
+        }
+
         if (PlayerState == "Play")
         {
             if(LifeRadial.fillAmount == 0)
             {
                 GetComponent<checkpoint>().isDeadNoLife = true;
 
-            }else if(LifeRadial.fillAmount >= 1)
+            }else if(LifeRadial.fillAmount >= 0.1f)
             {
                 GetComponent<checkpoint>().isDeadNoLife = false;
             }
@@ -192,12 +248,14 @@ public class PlayerMovement : MonoBehaviour
             if (InventoryNumber == 2f && mPickup)
             {
                 SwordRef.SetActive(true);
+                swordIcon.enabled = true;
                 armSprite.GetComponent<SpriteRenderer>().sprite = armSwordSprite;
 
             }
             else
             {
                 SwordRef.SetActive(false);
+                swordIcon.enabled = false;
 
             }
 
@@ -206,12 +264,15 @@ public class PlayerMovement : MonoBehaviour
                 shootRef.SetActive(true);
                 armSprite.GetComponent<SpriteRenderer>().sprite = armGunSprite;
                 playerAnim.SetBool("isGun", true);
+                GunIcon.enabled = true;
+
 
             }
             else
             {
                 shootRef.SetActive(false);
                 playerAnim.SetBool("isGun", false);
+                GunIcon.enabled = false;
 
             }
 
@@ -254,17 +315,11 @@ public class PlayerMovement : MonoBehaviour
 
         }
 
-        if (hitByEnemy)
-        {
-            rb.AddForce(transform.right * -hitForce, ForceMode2D.Impulse);
-            transform.position += new Vector3(0, 0.1f, 0);
-            hitByEnemy = false;
-            playerAnim.SetTrigger("isHit");
-        }
+    }
 
-
-
-
+    void updatePlayerPos()
+    {
+        wayPointPlayer.transform.position = new Vector2(transform.position.x, transform.position.y);
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -300,6 +355,15 @@ public class PlayerMovement : MonoBehaviour
             visible = false;
 
         }
+
+        if (collision.CompareTag("BossTrig"))
+        {
+            //Boss01.transform.GetChild(0).gameObject.SetActive(true);
+            Room07.transform.GetChild(0).gameObject.SetActive(true);
+            Boss01.transform.GetChild(0).gameObject.SetActive(true);
+
+        }
+
     }
 
     private void OnTriggerExit2D(Collider2D collision)

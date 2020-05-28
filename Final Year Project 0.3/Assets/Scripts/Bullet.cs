@@ -8,14 +8,20 @@ public class Bullet : MonoBehaviour
     public float bTimer; //destroy bullet after this time
     public float Brange; //range of wall hit collider and interact layer collider
     public float attackRange; //range of collider for attacking enemies
+    public float enemyRange;
+    public int BulletDamage;
 
     public LayerMask interactLayers; //specified layers for bullet to interact with
-    public LayerMask stickLayer; //specified layers for bullets to stick to
+    public LayerMask WGLayer; //specified layers for bullets to stick to
     public LayerMask enemyLayer; //specified layers for bullet to hit enemies with
+    public LayerMask BossLayer;
+    public LayerMask BombLayer;
 
     bool moving; //whether bullet is moving or not
 
     private Rigidbody2D rb; //referance to bullets rigidbody 2D
+
+    public GameObject hitEffect;
 
     void Awake()
     {
@@ -28,6 +34,7 @@ public class Bullet : MonoBehaviour
         rb = GetComponent<Rigidbody2D>(); // setting rigidbody 2D referance
         bTimer = 2f; //setting timer value
         moving = true; //setting whether bullet is moving
+        BulletDamage = 2;
 
     }
 
@@ -49,27 +56,51 @@ public class Bullet : MonoBehaviour
 
         if(bulletHit != null) //what happens when the bullet hits an object on the interaction layer
         {
-            Destroy(gameObject);
+            Instantiate(hitEffect, transform.position, transform.rotation);
             bulletHit.GetComponent<SpikeScript>().dead = true;
-
+            Destroy(gameObject, 0.01f);
         }
 
-        Collider2D wallHit = Physics2D.OverlapCircle(transform.position, Brange, stickLayer); //setting the wall collider (bullet sticks to wall)
+        Collider2D wallHit = Physics2D.OverlapCircle(transform.position, Brange, WGLayer); //setting the wall collider (bullet sticks to wall)
 
         if(wallHit != null) //what happens when bullet hits an object on the wall layer
         {
-            moving = false;
+            Instantiate(hitEffect, transform.position, transform.rotation);
+            Destroy(gameObject, 0.01f);
 
         }
 
-        Collider2D[] enemiesHit = Physics2D.OverlapCircleAll(transform.position, attackRange, enemyLayer); //setting the enemy collider (bullet stuns an enemy)
+        Collider2D[] enemiesHit = Physics2D.OverlapCircleAll(transform.position, enemyRange, enemyLayer); //setting the enemy collider (bullet stuns an enemy)
 
         foreach(Collider2D enemy in enemiesHit) // what to do when a bullet collides with an enemy on the enemy layer
         {
+            Speed = 0;
+            gameObject.GetComponent<SpriteRenderer>().enabled = false;
             enemy.GetComponent<EnemyScript>().EnemeyStun();
-            rb.velocity = new Vector2(0, 0);
+            Instantiate(hitEffect, transform.position, transform.rotation);
             Destroy(gameObject);
         }
+
+        Collider2D BossHit = Physics2D.OverlapCircle(transform.position, attackRange, BossLayer);
+
+        if(BossHit != null)
+        {
+            BossHit.GetComponent<Boss01>().TakeDamage(BulletDamage * 5);
+            BossHit.GetComponent<Boss01>().animPaused = true;
+            Instantiate(hitEffect, transform.position, transform.rotation);
+            Destroy(gameObject);
+        }
+
+        Collider2D bombHit = Physics2D.OverlapCircle(transform.position, attackRange, BombLayer);
+
+        if(bombHit != null)
+        {
+            bombHit.GetComponent<HomingEnemy>().Die();
+            Instantiate(hitEffect, transform.position, transform.rotation);
+            Destroy(gameObject);
+
+        }
+
     }
 
     void FixedUpdate() //moves the bullet
@@ -90,5 +121,6 @@ public class Bullet : MonoBehaviour
 
         Gizmos.DrawWireSphere(transform.position, Brange);
         Gizmos.DrawWireSphere(transform.position, attackRange);
+        Gizmos.DrawWireSphere(transform.position, enemyRange);
     }
 }

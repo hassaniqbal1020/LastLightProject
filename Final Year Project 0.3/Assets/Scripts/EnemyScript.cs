@@ -15,11 +15,13 @@ public class EnemyScript : MonoBehaviour
     public float AttackStateTimer; // Timer for enemy attack state
     public float WalkRange; // Radius of floor collider
     public float WallRange; // Radius of wall collider
+    public float hurtTimer; // Timer for when enemy is hurt
 
     [SerializeField] private bool EnemyFacingRight; // Direction the enemy is facing
     public bool canAttack; // Whether enemy can attack or not
-    public bool canRun;
-    public bool enemyNear;
+    public bool canRun; // if enemy can run
+    public bool enemyNear; // if player is near
+    public bool hitByPlayer; // if hit by player
     bool FacingRight; // Direction the enemy is facing
     bool isFloor; // Whether floor is in front of the enemy
     bool Playerhit; // Whether enemy has hit the player
@@ -33,16 +35,16 @@ public class EnemyScript : MonoBehaviour
 
     public PlayerMovement pRef; // Referance for player movement script
 
-    public int maxHealth = 150; // Enemy health
+    public int maxHealth = 200; // Enemy health
     public int currentHealth; // Enemy current health
 
     public LayerMask playerMask; // Layer for collider and raycast detection
     public LayerMask WallLayerMask; // Layer for wall collision
     public LayerMask HideMask; //Layer for detection
 
-    public Animator enemyAnim; // Enemy animation
-
     public Rigidbody2D rb; // Referance to enemy rigidbody 2D
+
+    public Animator enemyAnim;
 
     // Start is called before the first frame update
     void Start()
@@ -55,6 +57,7 @@ public class EnemyScript : MonoBehaviour
         canAttack = true; // Setting enemy ability to attack
         canRun = true;
         pRef = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>(); // Setting ref to player script
+        hurtTimer = 1f;
 
 
     }
@@ -69,10 +72,10 @@ public class EnemyScript : MonoBehaviour
             EnemyAttack();
         }
 
-        if (!GetComponentInChildren<enemyAttackTimer>().attack) // Stopping enemy attack
+        if (!GetComponentInChildren<enemyAttackFunction>().attack) // Stopping enemy attack
         {
             attackTime -= Time.deltaTime;
-            canAttack = false;
+            
 
         }
 
@@ -80,7 +83,42 @@ public class EnemyScript : MonoBehaviour
         {
             attackTime = 1.5f;
             canAttack = true;
-            GetComponentInChildren<enemyAttackTimer>().attack = true;
+            GetComponentInChildren<enemyAttackFunction>().attack = true;
+
+        }
+
+        if (hitByPlayer)
+        {
+            hurtTimer -= Time.deltaTime;
+            GetComponent<SpriteRenderer>().color = Color.white;
+
+            if (!canAttack)
+            {
+                canAttack = true;
+
+            }
+        }
+
+        if(hurtTimer <= 0)
+        {
+            hurtTimer = 1f;
+            hitByPlayer = false;
+
+            if (gameObject.tag != "EnemyAttack")
+            {
+                gameObject.tag = "EnemyAttack";
+            }
+        }
+
+        if (currentHealth <= 0)
+        {
+
+            if (pRef.LifeRadial.fillAmount < 1)
+            {
+                pRef.LifeRadial.fillAmount += 0.1f;
+            }
+
+            Die();
 
         }
 
@@ -90,16 +128,7 @@ public class EnemyScript : MonoBehaviour
     {
         currentHealth -= damage;
 
-        if(currentHealth <= 0)
-        {
-            if(pRef.LifeRadial.fillAmount < 1)
-            {
-                pRef.LifeRadial.fillAmount += 0.1f;
-            }
 
-            Die();
-
-        }
     }
 
     void EnemySight() //enemy line of sight
@@ -109,9 +138,8 @@ public class EnemyScript : MonoBehaviour
         RaycastHit2D hit = Physics2D.Raycast(SightPos.position, SightPos.right, maxDistance, playerMask); // Setting raycast for player detection
         RaycastHit2D hide = Physics2D.Raycast(SightPos.position, SightPos.right, maxDistance, HideMask); // Setting raycast for detection
 
-        if (hit.collider != null && hide.collider == null && pRef.visible) // If detects the player, becomes active
+        if (hit.collider != null && hide.collider == null && pRef.visible && gameObject.tag != "EnemyStun") // If detects the player, becomes active
         {
-            Debug.Log("PlayerHit");
             gameObject.tag = ("EnemyActive");
             
         }
@@ -122,26 +150,26 @@ public class EnemyScript : MonoBehaviour
 
         }
 
-        if(activeStateTimer <= 0 && hit.collider == null && gameObject.tag != ("EnemyAttack")) // Player is no longer within sights and timer reaches 0, returns to idle state
+        if(activeStateTimer <= 0 && hit.collider == null && gameObject.tag != ("EnemyAttack") && gameObject.tag != "EnemyStun") // Player is no longer within sights and timer reaches 0, returns to idle state
         {
             gameObject.tag = ("EnemyIdle");
             activeStateTimer = 0.5f;
 
         }
 
-        if(activeStateTimer <= 0 && hit.collider != null) // If player is still within sights when the timer eaches 0 then enemy will enter its attack state
+        if(activeStateTimer <= 0 && hit.collider != null && gameObject.tag != "EnemyStun") // If player is still within sights when the timer eaches 0 then enemy will enter its attack state
         {
             gameObject.tag = ("EnemyAttack");
             AttackStateTimer = 2;
         }
 
-        if (gameObject.tag == ("EnemyAttack")) // Enemy is within attack state 
+        if (gameObject.tag == ("EnemyAttack") && gameObject.tag != "EnemyStun") // Enemy is within attack state 
         {
 
             if (hit.collider == null) // If enemy is within its attack state  but can no longer detect player, decrease timer
             {
                 AttackStateTimer -= Time.deltaTime;
-                Debug.Log("noPlayer");
+
 
             }
 
@@ -159,21 +187,29 @@ public class EnemyScript : MonoBehaviour
     {
         Collider2D playerHitBox = Physics2D.OverlapCircle(attackPoint.position, attackRange, playerMask); // Setting enemy hit box
 
-        if(gameObject.tag == ("EnemyAttack") && isFloor) // If within an attack state and on the floor
+        if(gameObject.tag == ("EnemyAttack") && isFloor && gameObject.tag != "EnemyStun") // If within an attack state and on the floor
         {
             GetComponent<SpriteRenderer>().color = Color.red; // Change the colour
 
-            if(playerHitBox != null && canAttack) // If player is within hit box and enemy is able to attack, then enemy will attack
+            if(playerHitBox != null) // If player is within hit box and enemy is able to attack, then enemy will attack
             {
-                enemyAnim.SetTrigger("eAttack"); // Play enemy attack animation
                 enemyNear = true;
 
+                if (canAttack)
+                {                 
+                    enemyAnim.SetTrigger("isAttack"); // Play enemy attack animation
+                    canAttack = false;
+                }
+                
             }
-            else
+            
+            if(playerHitBox == null)
             {
                 enemyNear = false;
 
             }
+
+
 
         }
         else
@@ -198,40 +234,44 @@ public class EnemyScript : MonoBehaviour
 
         if (hitGroundR != null) // Ground is detected
         {
-            Debug.Log("HitGround");
+
             isFloor = true;
         }
         
-        if (gameObject.tag == "EnemyIdle") // Walking when in an idle state
+        if (gameObject.tag == "EnemyIdle" && gameObject.tag != "EnemyStun") // Walking when in an idle state
         {
             canAttack = true;
 
-            if (!EnemyFacingRight) //Moving Left
+            if (!hitByPlayer)
             {
-                rb.velocity = new Vector3(-speed, 0f, 0f);
-
-                if (hitGroundR == null || hitGroundR != null && WallHit != null) // Turn if no ground
+                if (!EnemyFacingRight) //Moving Left
                 {
-                    Flip();
-                    Debug.Log("NoGroundL");
+                    rb.velocity = new Vector3(-speed, 0f, 0f);
+
+                    if (hitGroundR == null || hitGroundR != null && WallHit != null) // Turn if no ground
+                    {
+                        Flip();
+
+                    }
+
                 }
-
-            }
-            else if (EnemyFacingRight ) //Moving Right
-            {
-                rb.velocity = new Vector3(speed, 0f, 0f);
-
-                if (hitGroundR == null || hitGroundR != null && WallHit != null) // Turn if no ground 
+                else if (EnemyFacingRight) //Moving Right
                 {
-                    Flip();
-                    Debug.Log("NoGroundR");
+                    rb.velocity = new Vector3(speed, 0f, 0f);
+
+                    if (hitGroundR == null || hitGroundR != null && WallHit != null) // Turn if no ground 
+                    {
+                        Flip();
+
+                    }
+
+
                 }
-
-
             }
+
         } 
         
-        if(gameObject.tag == ("EnemyAttack")) // Running when in an attack state
+        if(gameObject.tag == ("EnemyAttack") && !hitByPlayer && gameObject.tag != "EnemyStun") // Running when in an attack state
         {
            
             if (EnemyFacingRight) //Turn if player is behind enemy
@@ -294,7 +334,6 @@ public class EnemyScript : MonoBehaviour
     void Die()
     {
         //die
-        Debug.Log("Enemy Died");
         gameObject.SetActive(false);
 
 
@@ -306,11 +345,15 @@ public class EnemyScript : MonoBehaviour
 
 
         transform.Rotate(0, 180, 0);
+        //HealthBar.transform.Rotate(0, 180, 0);
     }
 
     public void EnemeyStun() // Enemy Stunned
     {
-        Debug.Log("enemyStun");
+
+        gameObject.tag = "EnemyStun";
+
+        enemyAnim.SetTrigger("isStun");
 
     }
 

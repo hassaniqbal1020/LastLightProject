@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 6734724713871112824}
   - component: {fileID: 6734724713871112827}
   - component: {fileID: 6734724713871112826}
-  - component: {fileID: 7821418169621367948}
-  m_Layer: 0
+  - component: {fileID: 1901744672526480208}
+  m_Layer: 19
   m_Name: Bullet
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 6734724713871112807}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.4667, y: 1.4667, z: 1.4667}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 8e2648c078b9ec3469591cba6316669a, type: 3}
-  m_Color: {r: 0.29503384, g: 0.73398966, b: 0.9622642, a: 1}
+  m_Color: {r: 1, g: 0.54949003, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -98,17 +98,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Speed: 0
   bTimer: 0
-  Brange: 0.06
-  attackRange: 0.07
+  Brange: 0.175
+  attackRange: 0.15
+  enemyRange: 0.25
+  BulletDamage: 0
   interactLayers:
     serializedVersion: 2
-    m_Bits: 10240
-  stickLayer:
+    m_Bits: 8192
+  WGLayer:
     serializedVersion: 2
-    m_Bits: 20480
+    m_Bits: 6144
   enemyLayer:
     serializedVersion: 2
     m_Bits: 512
+  BossLayer:
+    serializedVersion: 2
+    m_Bits: 131072
+  BombLayer:
+    serializedVersion: 2
+    m_Bits: 262144
+  hitEffect: {fileID: 439663188314491117, guid: bc1c8a2e51de13846b761eb82144aa86,
+    type: 3}
 --- !u!50 &6734724713871112826
 Rigidbody2D:
   serializedVersion: 4
@@ -125,12 +135,12 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
-  m_Material: {fileID: 6200000, guid: e70d469d0b74d55408aaa56b484c85c3, type: 2}
+  m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 6
---- !u!58 &7821418169621367948
+--- !u!58 &1901744672526480208
 CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -145,4 +155,4 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.065
+  m_Radius: 0.0625

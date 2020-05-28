@@ -7,6 +7,8 @@ using Cinemachine;
 public class RoomScript : MonoBehaviour
 {
     public GameObject VirtualCamera;
+    public GameObject RoomItems;
+
 
     // Start is called before the first frame update
     void Start()
@@ -25,7 +27,8 @@ public class RoomScript : MonoBehaviour
         if(collision.gameObject.tag == "Player" & !collision.isTrigger)
         {
             VirtualCamera.SetActive(true);
-            print("ouagbo");
+            RoomItems.SetActive(true);
+
         }
     }
 
@@ -34,7 +37,8 @@ public class RoomScript : MonoBehaviour
         if (collision.gameObject.tag == "Player" & !collision.isTrigger)
         {
             VirtualCamera.SetActive(false);
-            print("ouagbo");
+            RoomItems.SetActive(false);
+
         }
     }
 }

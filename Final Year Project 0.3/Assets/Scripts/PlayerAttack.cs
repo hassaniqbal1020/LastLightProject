@@ -5,11 +5,18 @@ using UnityEngine;
 public class PlayerAttack : MonoBehaviour
 {
     public PlayerLife UIref;
+    public float attackRate;
+    float nextAtkTime;
+    public PlayerLife lref;
+
+
 
     //public GameObject pRef;
 
     void Start()
     {
+        attackRate = 3f;
+        nextAtkTime = 0;
 
 
     }
@@ -17,16 +24,23 @@ public class PlayerAttack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(UIref.rechargeState == "Active")
+        if(Time.time >= nextAtkTime)
         {
-            if (Input.GetButtonDown("Xbox_B"))
+            if (UIref.rechargeState == "Active")
             {
-                Attack();
+                if (Input.GetButtonDown("Xbox_B"))
+                {
+                    Attack();
 
-                Debug.Log("B_Pressed");
+                    nextAtkTime = Time.time + 1f / attackRate;
+
+                    lref.atkAnimEnable = true;
+                }
+
             }
 
         }
+        
         
     }
 

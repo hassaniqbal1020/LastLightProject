@@ -39,14 +39,14 @@ public class GrapplingHook1 : MonoBehaviour
     {
         foreach (Transform Hook in Hooks) // Go through array of hooks
         {
-            Debug.Log(Hook);
             //HookActive = null;
             currentActiveHook = Vector3.Distance(Hook.position, transform.position);
+            //Debug.Log(currentActiveHook);
             Hook.gameObject.GetComponent<SpriteRenderer>().color = Color.yellow;
 
-            if (Vector3.Distance(Hook.position, transform.position) < 5.6f || Vector3.Distance(Hook.position, transform.position) < currentActiveHook) // If any hook is less than specified distance then hook becomes active
+            if (Vector3.Distance(Hook.position, transform.position) < 5.3f ) // If any hook is less than specified distance then hook becomes active
             {
-                Debug.Log(Vector3.Distance(Hook.position, transform.position));
+
                 HookActive = Hook;
                 HookActive.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
 
@@ -57,7 +57,10 @@ public class GrapplingHook1 : MonoBehaviour
 
         if (Input.GetButtonDown("Xbox_Right_Bumper"))
         {
-            Debug.Log("Pressed");
+            if (HookActive == null)
+            {
+                return;
+            }
 
             ActiveState = "Active"; // Active after input
             targetPos = HookActive.transform.position; // Connected target equals active hook position
@@ -81,8 +84,6 @@ public class GrapplingHook1 : MonoBehaviour
 
             }
 
-            
-
         }
 
         if (Input.GetButton("Xbox_Right_Bumper")) // Enabling line renderer and setting position
@@ -101,7 +102,7 @@ public class GrapplingHook1 : MonoBehaviour
 
         }
 
-        if (PlayerJoint.distance > 1.3f) // Set minimum distance for hook length to begin decreasing
+        if (PlayerJoint.distance > 0.8f) // Set minimum distance for hook length to begin decreasing
         {
             PlayerJoint.distance -= DecreaseDistance * Time.deltaTime;
 

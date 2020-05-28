@@ -3,32 +3,54 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-
 public class PlayerAlignment : MonoBehaviour
 {
-    public Image powerButton;
-
     public float posNum;
-    float DpadHorizontal;
+    public float negNum;
+    public float detectRange;
+    public int PlayerAttackPower;
 
-    bool enable;
-    bool buttonEnable;
+    public Transform OriginPoint;
 
-    public AttackFunction attackRef;
+    public LayerMask orbLayer;
 
-    public string Alignment;
-
-    public Animator diamondAnim;
+    public PlayerMovement pRef;
+    public DpadController dpadRef;
 
     int baseDamage;
+
+    public static PlayerAlignment instance;
+
+    public Image powerButton;
+
+    bool positive;
+    bool negative;
+
+    void Awake()
+    {
+        if(instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(instance);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
+        powerButton = GameObject.FindGameObjectWithTag("PBUI").GetComponent<Image>();
+
+        PlayerAttackPower = 25;
+        powerButton.enabled = false;
+
+
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        Alignment = "Neutral";
-        enable = false;
-        powerButton.enabled = false;
         posNum = 0;
+        negNum = 0;
         baseDamage = 5;
 
     }
@@ -36,65 +58,74 @@ public class PlayerAlignment : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        DpadHorizontal = Input.GetAxis("XboxDpadX");
+        OriginPoint = GameObject.FindGameObjectWithTag("OriginPoint").GetComponent<Transform>();
+        pRef = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
+        powerButton = GameObject.FindGameObjectWithTag("PBUI").GetComponent<Image>();
+        dpadRef = GameObject.FindGameObjectWithTag("DpadController").GetComponent<DpadController>();
 
-        Debug.Log(DpadHorizontal);
+        pRef.AttackPower = PlayerAttackPower;
+       
+        PowerCoreCollect();
 
-        if (enable)
+        if(posNum >= 1)
         {
-            StartCoroutine(alignmentControl());
-            buttonEnable = true;
+            gameObject.transform.GetChild(0).gameObject.SetActive(false);
+
+            if(posNum >= 2)
+            {
+                gameObject.transform.GetChild(2).gameObject.SetActive(false);
+
+            }
+        }
+
+        if( negNum >= 1)
+        {
+            gameObject.transform.GetChild(1).gameObject.SetActive(true);
+
+            if(negNum >= 2)
+            {
+                gameObject.transform.GetChild(3).gameObject.SetActive(true);
+
+            }
+        }
+    }
+
+    void PowerCoreCollect()
+    {
+        Collider2D[] PowerCores = Physics2D.OverlapCircleAll(OriginPoint.position, detectRange, orbLayer);
+
+        foreach(Collider2D PowerCore in PowerCores)
+        {
             powerButton.enabled = true;
-        }
 
-        if (!enable)
+            if (dpadRef.IsRight)
+            {
+                PowerCore.GetComponent<diamondScript>().Collected(true);
+                posNum++;
+            }
+            else if (dpadRef.IsLeft)
+            {
+                PowerCore.GetComponent<diamondScript>().Collected(true);
+                PlayerAttackPower += baseDamage;
+                negNum++;
+            }
+
+        }
+        
+        if (PowerCores.Length <= 0)
         {
-            buttonEnable = false;
             powerButton.enabled = false;
-
         }
-            
-
 
     }
 
-    IEnumerator alignmentControl()
+    private void OnDrawGizmos()
     {
-        yield return new WaitForSeconds(0.1f);
-        //show UI
-        if (DpadHorizontal == 1 && buttonEnable)
+        if(OriginPoint == null)
         {
-            buttonEnable = false;
-            enable = false;
-            powerButton.enabled = false;
-            diamondAnim.SetBool("Used", true);
-            posNum += 1;
+            return;
         }
-        else if (DpadHorizontal == -1 && buttonEnable)
-        {
-            buttonEnable = false;
-            enable = false;
-            powerButton.enabled = false;
-            diamondAnim.SetBool("Used", true);
-            attackRef.attackDamage += baseDamage;
-        }
+        Gizmos.DrawWireSphere(OriginPoint.position, detectRange);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("LightOrb"))
-        {
-            enable = true;
-
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag("LightOrb"))
-        {
-            enable = false;
-
-        }
-    }
 }
