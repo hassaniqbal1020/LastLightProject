@@ -96,6 +96,7 @@ public class PlayerMovement : MonoBehaviour
         Boss01 = GameObject.FindGameObjectWithTag("BossControl");
         Room07 = GameObject.FindGameObjectWithTag("Room07");
         BossUI = GameObject.FindGameObjectWithTag("BossUI").transform.GetChild(0).gameObject;
+        wayPointPlayer = GameObject.FindGameObjectWithTag("WayPoint");
 
         if(posTimer > 0)
         {
@@ -319,7 +320,8 @@ public class PlayerMovement : MonoBehaviour
 
     void updatePlayerPos()
     {
-        wayPointPlayer.transform.position = new Vector2(transform.position.x, transform.position.y);
+        wayPointPlayer.transform.position = transform.position;
+
     }
 
     void OnCollisionEnter2D(Collision2D collision)

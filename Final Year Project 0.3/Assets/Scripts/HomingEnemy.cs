@@ -18,12 +18,13 @@ public class HomingEnemy : MonoBehaviour
     void Start()
     {
 
-        waypoint = GameObject.Find("wayPointPlayer");
     }
 
     // Update is called once per frame
     void Update()
     {
+        waypoint = GameObject.Find("wayPointPlayer");
+
         WaypointPos = new Vector2(waypoint.transform.position.x, waypoint.transform.position.y);
 
         transform.position = Vector2.MoveTowards(transform.position, WaypointPos, speed * Time.deltaTime);

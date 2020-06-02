@@ -18,7 +18,7 @@ public class PlayerLife : MonoBehaviour
     void Start()
     {
         LifeNum = 6f;
-        lTimer = 1.5f;
+        lTimer = 0.7f;
         rechargeState = "Active";
         enable = false;
 
@@ -45,7 +45,7 @@ public class PlayerLife : MonoBehaviour
             if (atkAnimEnable)
             {
                 LifeNum -= 1;
-                lTimer = 1.5f;
+                lTimer = 0.7f;
                 atkAnimEnable = false;
             }
            
@@ -60,7 +60,7 @@ public class PlayerLife : MonoBehaviour
 
         if(lTimer <= 0)
         {
-            lTimer = 1.5f;
+            lTimer = 0.7f;
             LifeNum += 1;
 
         }
@@ -68,7 +68,7 @@ public class PlayerLife : MonoBehaviour
         if(LifeNum >= 6)
         {
             LifeNum = 6;
-            lTimer = 1.5f;
+            lTimer = 0.7f;
 
         }
 

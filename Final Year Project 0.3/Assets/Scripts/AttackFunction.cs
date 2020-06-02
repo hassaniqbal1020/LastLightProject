@@ -44,7 +44,7 @@ public class AttackFunction : MonoBehaviour
 
         if(BossHit != null)
         {
-            Instantiate(hitEffect, BossHit.transform.position, BossHit.transform.rotation);
+            Instantiate(hitEffect, attackPoint.position, attackPoint.rotation);
             BossHit.GetComponent<Boss01>().TakeDamage(attackDamage);
 
         }

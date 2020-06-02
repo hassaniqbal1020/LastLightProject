@@ -42,6 +42,7 @@ public class EnemyScript : MonoBehaviour
     public LayerMask playerMask; // Layer for collider and raycast detection
     public LayerMask WallLayerMask; // Layer for wall collision
     public LayerMask HideMask; //Layer for detection
+    public LayerMask GroundMask;
 
     public Rigidbody2D rb; // Referance to enemy rigidbody 2D
 
@@ -54,10 +55,8 @@ public class EnemyScript : MonoBehaviour
         gameObject.tag = ("EnemyIdle"); // Setting enemy tag i.e. state
         rb = GetComponent<Rigidbody2D>(); // Setting rigidbody  2D
         EnemyFacingRight = true; // Setting enemies direction
-        targetLocation = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>(); // Setting enemy target
         canAttack = true; // Setting enemy ability to attack
         canRun = true;
-        pRef = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>(); // Setting ref to player script
         hurtTimer = 1f;
         floorTimer = 0.2f;
 
@@ -67,7 +66,10 @@ public class EnemyScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(GetComponent<EnemyStates>().EnemyState == "Active") // Enable enemy
+        targetLocation = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>(); // Setting enemy target
+        pRef = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>(); // Setting ref to player script
+
+        if (GetComponent<EnemyStates>().EnemyState == "Active") // Enable enemy
         {
             EnemySight();
             EnemyPath();
@@ -155,7 +157,7 @@ public class EnemyScript : MonoBehaviour
         if(activeStateTimer <= 0 && hit.collider == null && gameObject.tag != ("EnemyAttack") && gameObject.tag != "EnemyStun") // Player is no longer within sights and timer reaches 0, returns to idle state
         {
             gameObject.tag = ("EnemyIdle");
-            activeStateTimer = 0.5f;
+            activeStateTimer = 0.15f;
 
         }
 
@@ -178,7 +180,7 @@ public class EnemyScript : MonoBehaviour
             if(AttackStateTimer <= 0) // If timer reaches 0 then reset the enemy state
             {
                 gameObject.tag = ("EnemyIdle");
-                activeStateTimer = 0.5f;
+                activeStateTimer = 0.15f;
                 AttackStateTimer = 2;
             }
 
@@ -224,7 +226,7 @@ public class EnemyScript : MonoBehaviour
     void EnemyPath()
     {
         
-        Collider2D hitGroundR = Physics2D.OverlapCircle(GroundR.position, WalkRange, 1 << 11); // Setting ground detection
+        Collider2D hitGroundR = Physics2D.OverlapCircle(GroundR.position, WalkRange, GroundMask); // Setting ground detection
 
         Collider2D WallHit = Physics2D.OverlapCircle(WallCheck.position, WallRange, WallLayerMask); // Setting wall detection
 
@@ -334,7 +336,7 @@ public class EnemyScript : MonoBehaviour
             }else if(hitGroundR == null)
             {
                 gameObject.tag = ("EnemyIdle");
-                activeStateTimer = 0.5f;
+                activeStateTimer = 0.15f;
                 AttackStateTimer = 2;
             }
 

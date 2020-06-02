@@ -36,6 +36,8 @@ TagManager:
   - Ground
   - mPlatform
   - WayPoint
+  - Boss02
+  - Boss2Trigg
   layers:
   - Default
   - TransparentFX
@@ -57,8 +59,8 @@ TagManager:
   - BossLayer
   - HomingEnemy
   - Bullet
-  - 
-  - 
+  - onOffGround
+  - WallBlock
   - 
   - 
   - 

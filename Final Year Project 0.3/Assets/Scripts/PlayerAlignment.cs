@@ -17,7 +17,7 @@ public class PlayerAlignment : MonoBehaviour
     public PlayerMovement pRef;
     public DpadController dpadRef;
 
-    int baseDamage;
+    public int baseDamage;
 
     public static PlayerAlignment instance;
 
@@ -51,7 +51,7 @@ public class PlayerAlignment : MonoBehaviour
     {
         posNum = 0;
         negNum = 0;
-        baseDamage = 5;
+        baseDamage = 12;
 
     }
 
@@ -67,27 +67,8 @@ public class PlayerAlignment : MonoBehaviour
        
         PowerCoreCollect();
 
-        if(posNum >= 1)
-        {
-            gameObject.transform.GetChild(0).gameObject.SetActive(false);
-
-            if(posNum >= 2)
-            {
-                gameObject.transform.GetChild(2).gameObject.SetActive(false);
-
-            }
-        }
-
-        if( negNum >= 1)
-        {
-            gameObject.transform.GetChild(1).gameObject.SetActive(true);
-
-            if(negNum >= 2)
-            {
-                gameObject.transform.GetChild(3).gameObject.SetActive(true);
-
-            }
-        }
+        PositiveAlignment();
+        NegativeAlignment();
     }
 
     void PowerCoreCollect()
@@ -117,6 +98,58 @@ public class PlayerAlignment : MonoBehaviour
             powerButton.enabled = false;
         }
 
+    }
+
+    void PositiveAlignment()
+    {
+        if(posNum >= 1)
+        {
+            transform.GetChild(0).gameObject.SetActive(false);
+        }
+
+        if(posNum >= 2)
+        {
+            transform.GetChild(2).gameObject.SetActive(false);
+
+        }
+
+        if (posNum >= 3)
+        {
+            transform.GetChild(4).gameObject.SetActive(false);
+
+        }
+
+        if (posNum >= 4)
+        {
+            transform.GetChild(6).gameObject.SetActive(false);
+
+        }
+    }
+
+    void NegativeAlignment()
+    {
+        if (negNum >= 1)
+        {
+            transform.GetChild(1).gameObject.SetActive(true);
+        }
+
+        if (negNum >= 2)
+        {
+            transform.GetChild(3).gameObject.SetActive(true);
+
+        }
+
+        if (negNum >= 3)
+        {
+            transform.GetChild(5).gameObject.SetActive(true);
+
+        }
+
+        if (negNum >= 4)
+        {
+            transform.GetChild(7).gameObject.SetActive(true);
+
+        }
     }
 
     private void OnDrawGizmos()
