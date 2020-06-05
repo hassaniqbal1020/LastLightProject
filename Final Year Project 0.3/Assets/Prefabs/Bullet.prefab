@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6734724713871112825}
   - component: {fileID: 6734724713871112824}
-  - component: {fileID: 6734724713871112827}
   - component: {fileID: 6734724713871112826}
   - component: {fileID: 1901744672526480208}
+  - component: {fileID: 2401970550168466433}
   m_Layer: 19
   m_Name: Bullet
   m_TagString: Bullet
@@ -84,41 +84,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6734724713871112827
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6734724713871112807}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2ccd0db67e2eb44daf57501850d18ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Speed: 0
-  bTimer: 0
-  Brange: 0.175
-  attackRange: 0.15
-  enemyRange: 0.25
-  BulletDamage: 0
-  interactLayers:
-    serializedVersion: 2
-    m_Bits: 8192
-  WGLayer:
-    serializedVersion: 2
-    m_Bits: 6144
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 512
-  BossLayer:
-    serializedVersion: 2
-    m_Bits: 131072
-  BombLayer:
-    serializedVersion: 2
-    m_Bits: 262144
-  hitEffect: {fileID: 439663188314491117, guid: bc1c8a2e51de13846b761eb82144aa86,
-    type: 3}
 --- !u!50 &6734724713871112826
 Rigidbody2D:
   serializedVersion: 4
@@ -156,3 +121,41 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.0625
+--- !u!114 &2401970550168466433
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6734724713871112807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31d0636906a9cc944b80310e2c237609, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Speed: 0
+  bTimer: 0
+  Brange: 0.25
+  attackRange: 0.3
+  enemyRange: 0.35
+  BulletDamage: 0
+  interactLayers:
+    serializedVersion: 2
+    m_Bits: 8192
+  WGLayer:
+    serializedVersion: 2
+    m_Bits: 6144
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  BossLayer:
+    serializedVersion: 2
+    m_Bits: 131072
+  Boss02Layer:
+    serializedVersion: 2
+    m_Bits: 4194304
+  BombLayer:
+    serializedVersion: 2
+    m_Bits: 262144
+  hitEffect: {fileID: 439663188314491117, guid: bc1c8a2e51de13846b761eb82144aa86,
+    type: 3}

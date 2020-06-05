@@ -132,7 +132,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 6200000, guid: 9f41b8c10188c7340bbcee1d42bdb87c, type: 2}
+  m_Material: {fileID: 6200000, guid: 6b688d7fbd9d4384280d2228839f395d, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
@@ -157,6 +157,7 @@ MonoBehaviour:
   hitEffect: {fileID: 439663188314491117, guid: 1b983ccdf88a722469110ea40dc1ca83,
     type: 3}
   BombTimer: 0
+  Activate: 0
 --- !u!114 &3999113550705254073
 MonoBehaviour:
   m_ObjectHideFlags: 0

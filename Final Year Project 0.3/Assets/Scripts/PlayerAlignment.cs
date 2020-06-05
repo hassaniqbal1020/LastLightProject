@@ -51,7 +51,7 @@ public class PlayerAlignment : MonoBehaviour
     {
         posNum = 0;
         negNum = 0;
-        baseDamage = 12;
+        baseDamage = 10;
 
     }
 

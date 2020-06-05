@@ -9,17 +9,17 @@ public class Boss02HazardSpwn : MonoBehaviour
 
     public float SpawnTimer;
 
-    // Start is called before the first frame update
-    void Start()
+
+    private void OnEnable()
     {
-        SpawnTimer = 0.9f;
+        SpawnTimer = 0.85f;
     }
 
     // Update is called once per frame
     void Update()
     {
         SpawnTimer -= Time.deltaTime;
-        if (SpawnTimer > 0.1 && SpawnTimer < 0.25)
+        if (SpawnTimer > 0.05 && SpawnTimer < 0.15)
         {
             hazardWarning.SetActive(true);
 
@@ -33,7 +33,7 @@ public class Boss02HazardSpwn : MonoBehaviour
         if (SpawnTimer <= 0)
         {
             Instantiate(hazard, transform.position, transform.rotation);
-            SpawnTimer = 0.9f;
+            SpawnTimer = 0.85f;
 
         }
     }

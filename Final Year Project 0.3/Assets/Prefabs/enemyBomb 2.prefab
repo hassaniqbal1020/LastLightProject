@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2364489928446058907}
   - component: {fileID: 2364489928446058909}
   - component: {fileID: 3999113550705254073}
+  - component: {fileID: 5767071735540793233}
   m_Layer: 0
   m_Name: enemyBomb 2
   m_TagString: Untagged
@@ -30,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 2364489928446058886}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 7.5, y: 7.5, z: 1}
+  m_LocalScale: {x: 6, y: 6, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -132,7 +133,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 6200000, guid: 6b688d7fbd9d4384280d2228839f395d, type: 2}
+  m_Material: {fileID: 6200000, guid: 7dee9a3b63d2984428dead9b9fae672e, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
@@ -157,6 +158,7 @@ MonoBehaviour:
   hitEffect: {fileID: 439663188314491117, guid: 1b983ccdf88a722469110ea40dc1ca83,
     type: 3}
   BombTimer: 0
+  Activate: 0
 --- !u!114 &3999113550705254073
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -170,3 +172,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ThrustForce: 0
+--- !u!114 &5767071735540793233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2364489928446058886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6252cc31144e2fe43af53d40446f029b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Timer: 0
+  rb: {fileID: 0}

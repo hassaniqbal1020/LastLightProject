@@ -10,6 +10,7 @@ public class AttackFunction : MonoBehaviour
     public float attackRange = 0.5f;
     public LayerMask enemyLayers;
     public LayerMask bossLayer;
+    public LayerMask Boss02Layer;
 
     public GameObject hitEffect;
 
@@ -47,6 +48,14 @@ public class AttackFunction : MonoBehaviour
             Instantiate(hitEffect, attackPoint.position, attackPoint.rotation);
             BossHit.GetComponent<Boss01>().TakeDamage(attackDamage);
 
+        }
+
+        Collider2D Boss02Hit = Physics2D.OverlapCircle(attackPoint.position, attackRange, Boss02Layer);
+
+        if(Boss02Hit != null)
+        {
+            Instantiate(hitEffect, attackPoint.position, attackPoint.rotation);
+            Boss02Hit.GetComponentInParent<FinalBoss>().TakeDamage(attackDamage);
         }
     }
 

@@ -38,6 +38,8 @@ TagManager:
   - WayPoint
   - Boss02
   - Boss2Trigg
+  - Wall
+  - FinalBossWall
   layers:
   - Default
   - TransparentFX
@@ -61,7 +63,7 @@ TagManager:
   - Bullet
   - onOffGround
   - WallBlock
-  - 
+  - Boss02
   - 
   - 
   - 

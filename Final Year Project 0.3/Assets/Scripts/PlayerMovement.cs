@@ -86,7 +86,7 @@ public class PlayerMovement : MonoBehaviour
         freezeTimer = 1f; // Setting value for how long to freeze the game
         BossHPBarRef.SetActive(false);
         Boss01.SetActive(false);
-        posTimer = 0.05f;
+        posTimer = 0.1f;
 
     }
 
@@ -106,7 +106,7 @@ public class PlayerMovement : MonoBehaviour
         {
             updatePlayerPos();
 
-            posTimer = 0.5f;
+            posTimer = 0.1f;
 
 
         }

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class BombScript : MonoBehaviour
@@ -12,10 +13,17 @@ public class BombScript : MonoBehaviour
 
     public float BombTimer;
 
+    public bool Activate;
+
+    private void Awake()
+    {
+        BombTimer = 0.5f;
+
+    }
     // Start is called before the first frame update
     void Start()
     {
-        BombTimer = 0.5f;
+        Activate = false;
     }
 
     // Update is called once per frame
@@ -33,7 +41,13 @@ public class BombScript : MonoBehaviour
 
         }
 
-        if(BombTimer <= 0)
+        if (Activate)
+        {
+            BombTimer -= Time.deltaTime;
+
+        }
+
+        if (BombTimer <= 0)
         {
             Instantiate(hitEffect, transform.position, transform.rotation);
             Destroy(gameObject);
@@ -45,7 +59,8 @@ public class BombScript : MonoBehaviour
     {
         if (collision.gameObject.tag == "Ground")
         {
-            BombTimer -= Time.deltaTime;
+            Activate = true;
+
         }
     }
 
