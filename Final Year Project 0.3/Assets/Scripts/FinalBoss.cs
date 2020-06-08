@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class FinalBoss : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class FinalBoss : MonoBehaviour
 
     public bool playerEnter;
     public bool isIdle;
+    bool isHealthIncreased;
 
     public float AtkTimer;
     public float BossHealth;
@@ -20,12 +22,17 @@ public class FinalBoss : MonoBehaviour
     public GameObject SpawnPoint;
     public GameObject Boss02HpBar;
 
+
+    float endTimer;
+
     // Start is called before the first frame update
     void Start()
     {
         AtkTimer = 1.5f;
         BossHealth = 1000f;
         isIdle = false;
+        endTimer = 1.5f;
+        isHealthIncreased = false;
     }
 
     // Update is called once per frame
@@ -35,11 +42,20 @@ public class FinalBoss : MonoBehaviour
         Boss02HpBar = GameObject.FindGameObjectWithTag("BossUI").transform.GetChild(1).gameObject;
         Boss02HpBar.GetComponent<Slider>().value = BossHealth;
 
+
+
         if (BossHealth <= 0)
         {
             Boss02Anim.speed = 0;
             Boss02HpBar.SetActive(false);
-            Destroy(gameObject, 1);
+            Destroy(gameObject, 2.5f);
+            endTimer -= Time.deltaTime;
+        }
+
+        if(endTimer <= 0)
+        {
+            SceneManager.LoadScene(2);
+
         }
 
         if (Boss02Trigger == null)
@@ -78,19 +94,19 @@ public class FinalBoss : MonoBehaviour
 
     void ResetAttack()
     {
-        if(BossHealth > 650)
+        if(BossHealth > 650 || isHealthIncreased && BossHealth > 1600)
         {
             Boss02Anim.SetInteger("AttackString", Random.Range(1, 3));
 
         }
         
-        if(BossHealth > 450 && BossHealth <= 650)
+        if(BossHealth > 450 && BossHealth <= 650 || isHealthIncreased && BossHealth > 900 && BossHealth <= 1600)
         {
             Boss02Anim.SetInteger("AttackString", Random.Range(1, 4));
 
         }
 
-        if(BossHealth <= 450)
+        if(BossHealth <= 450 || isHealthIncreased && BossHealth < 1200)
         {
             Boss02Anim.SetInteger("AttackString", Random.Range(1, 5));
         }
@@ -104,7 +120,7 @@ public class FinalBoss : MonoBehaviour
 
     void UseBigBombAttack()
     {
-        if(BossHealth < 500)
+        if(BossHealth < 500 || isHealthIncreased && BossHealth <= 1600)
         {
             Instantiate(Bomb02, SpawnPoint.transform.position, SpawnPoint.transform.rotation);
 
@@ -129,5 +145,12 @@ public class FinalBoss : MonoBehaviour
     {
         Boss02Anim.SetBool("isHit", false);
 
+    }
+
+    public void increaseHealth(int HighHealth)
+    {
+        Boss02HpBar.GetComponent<Slider>().maxValue = HighHealth;
+        BossHealth = HighHealth;
+        isHealthIncreased = true;
     }
 }

@@ -102,7 +102,7 @@ public class GrapplingHook1 : MonoBehaviour
 
         }
 
-        if (PlayerJoint.distance > 0.8f) // Set minimum distance for hook length to begin decreasing
+        if (PlayerJoint.distance > 1f) // Set minimum distance for hook length to begin decreasing
         {
             PlayerJoint.distance -= DecreaseDistance * Time.deltaTime;
 

@@ -6,6 +6,7 @@ public class Boss02Trigg : MonoBehaviour
 {
     public GameObject Boss02;
     public GameObject WallBlock;
+    public GameObject PlayerAlignment;
 
     public bool wallOn;
 
@@ -17,8 +18,10 @@ public class Boss02Trigg : MonoBehaviour
 
     void Update()
     {
-        Boss02 = GameObject.FindGameObjectWithTag("Boss02");
+        Boss02 = GameObject.FindGameObjectWithTag("FinalBoss");
         WallBlock = GameObject.FindGameObjectWithTag("FinalBossWall");
+        PlayerAlignment = GameObject.FindGameObjectWithTag("Alignment");
+
 
         if (!wallOn)
         {
@@ -35,8 +38,14 @@ public class Boss02Trigg : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            Boss02.GetComponent<FinalBoss>().playerEnter = true;
+            Boss02.GetComponentInParent<FinalBoss>().playerEnter = true;
             wallOn = true;
+
+            if (PlayerAlignment.GetComponent<PlayerAlignment>().negNum >= 3)
+            {
+                Boss02.GetComponent<FinalBoss>().increaseHealth(2500);
+
+            }
 
         }
     }

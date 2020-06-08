@@ -40,6 +40,9 @@ TagManager:
   - Boss2Trigg
   - Wall
   - FinalBossWall
+  - BossSpike
+  - FinalBoss
+  - Alignment
   layers:
   - Default
   - TransparentFX

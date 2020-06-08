@@ -27,7 +27,11 @@ public class SpikeScript : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-      
+        if(collision.gameObject.tag == "Player")
+        {
+            Instantiate(deathEffect, transform.position, transform.rotation);
+            Destroy(gameObject, 0.1f);
+        }
     }
 
     IEnumerator Die()

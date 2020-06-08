@@ -335,6 +335,13 @@ public class PlayerMovement : MonoBehaviour
 
         }
 
+        if(collision.gameObject.tag == "BossSpike")
+        {
+            hitByEnemy = true;
+            timeFreeze = true;
+            LifeRadial.fillAmount -= 0.1f;
+        }
+
 
     }
 
