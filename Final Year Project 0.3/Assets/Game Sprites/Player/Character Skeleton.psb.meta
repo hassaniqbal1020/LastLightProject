@@ -61,6 +61,7 @@ ScriptedImporter:
     maxTextureSizeSet: 0
     compressionQualitySet: 0
     textureFormatSet: 0
+    applyGammaDecoding: 0
   spriteImportData:
   - name: Character Skeleton_1
     originalName: 
@@ -18354,7 +18355,7 @@ ScriptedImporter:
   platformSettings:
   - name: Default
     overridden: 1
-    maxTextureSize: 2048
+    maxTextureSize: 512
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -18367,8 +18368,8 @@ ScriptedImporter:
   documentPivot: {x: 1.76, y: 0}
   documentAlignment: 5
   importHiddenLayers: 0
-  importedTextureWidth: 1024
-  importedTextureHeight: 2048
+  importedTextureWidth: 256
+  importedTextureHeight: 512
   documentSize: {x: 1141, y: 2119}
   paperDollMode: 0
   keepDupilcateSpriteName: 0

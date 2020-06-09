@@ -38,7 +38,7 @@ public class Boss01Collider : MonoBehaviour
             AttackRange = 0;
 
             Debug.Log("bossHitPlayer");
-            pRef.LifeRadial.fillAmount -= 0.25f;
+            pRef.LifeRadial.fillAmount -= 0.1f;
             pRef.timeFreeze = true;
             pRef.hitByEnemy = true;
             Instantiate(hitEffect, PlayerRef.transform.position, PlayerRef.transform.rotation);

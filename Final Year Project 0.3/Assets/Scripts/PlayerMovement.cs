@@ -34,9 +34,8 @@ public class PlayerMovement : MonoBehaviour
     public float hitForce;
 
     public GameObject shootRef;
-    //public GameObject enemyRef;
-    public GameObject shieldRef;
     public GameObject SwordRef;
+    public GameObject dashEffect;
 
 
     public string PlayerState;
@@ -217,6 +216,8 @@ public class PlayerMovement : MonoBehaviour
             {
                 dash = true;
                 DashState = "Dash";
+                //Instantiate(dashEffect, transform.position, transform.rotation);
+
             }
 
             if (DashState == "Dash")
@@ -237,6 +238,11 @@ public class PlayerMovement : MonoBehaviour
                 InventoryNumber += 1f;
 
 
+            }
+
+            if (!dash)
+            {
+                rb.gravityScale = 2.5f;
             }
 
             //Item select
@@ -300,20 +306,9 @@ public class PlayerMovement : MonoBehaviour
         //Dash Code - hold direction for dash
         if (dash == true && DashState == "Dash")
         {
-
-            if (horizontal > 0)
-            {
-                rb.AddForce(transform.right * ThrustForce, ForceMode2D.Impulse);
-                dash = false;
-
-            }
-            else if (horizontal < 0)
-            {
-                rb.AddForce(transform.right * ThrustForce, ForceMode2D.Impulse);
-                dash = false;
-                
-            }
-
+            rb.gravityScale = 0;
+            rb.AddForce(transform.right * ThrustForce, ForceMode2D.Impulse);
+            dash = false;
         }
 
     }
@@ -367,7 +362,6 @@ public class PlayerMovement : MonoBehaviour
 
         if (collision.CompareTag("BossTrig"))
         {
-            //Boss01.transform.GetChild(0).gameObject.SetActive(true);
             Room07.transform.GetChild(0).gameObject.SetActive(true);
             Boss01.transform.GetChild(0).gameObject.SetActive(true);
 

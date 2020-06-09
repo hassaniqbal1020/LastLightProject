@@ -33,7 +33,7 @@ public class BombScript : MonoBehaviour
 
         if(Blast != null)
         {
-            Blast.GetComponent<PlayerMovement>().LifeRadial.fillAmount -= 0.1f;
+            Blast.GetComponent<PlayerMovement>().LifeRadial.fillAmount -= 0.05f;
             Blast.GetComponent<PlayerMovement>().hitByEnemy = true;
             Blast.GetComponent<PlayerMovement>().timeFreeze = true;
             Instantiate(hitEffect, transform.position, transform.rotation);
