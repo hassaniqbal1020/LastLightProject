@@ -6036,6 +6036,28 @@ ScriptedImporter:
     tessellationDetail: 0
     parentGroupIndex: -1
     uvTransform: {x: -15, y: -14}
+  - name: Layer 18
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 243
+      width: 0
+      height: 0
+    spriteID: fd78ebe0323b47440ad9f6bfd0f85ce9
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: -186, y: -110}
   platformSettings:
   - name: Default
     overridden: 1
@@ -6066,73 +6088,87 @@ ScriptedImporter:
   characterMode: 1
   mosaicPSDLayers: []
   rigPSDLayers:
+  - name: Layer 18
+    spriteName: Layer 18
+    isGroup: 0
+    parentIndex: -1
+    spriteID: fd78ebe0323b47440ad9f6bfd0f85ce9
+    layerID: 175
+    mosaicPosition: {x: 4, y: 243}
+  - name: Group 1
+    spriteName: 
+    isGroup: 1
+    parentIndex: -1
+    spriteID: 
+    layerID: 173
+    mosaicPosition: {x: 0, y: 0}
   - name: Layer 12
     spriteName: Layer 12
     isGroup: 0
-    parentIndex: -1
+    parentIndex: 1
     spriteID: 70658a91cf52e24429e6e01a69aa5eea
     layerID: 155
     mosaicPosition: {x: 4, y: 89}
   - name: Layer 10
     spriteName: Layer 10
     isGroup: 0
-    parentIndex: -1
+    parentIndex: 1
     spriteID: 17f767bd6aa895f42915c67d7258fea6
     layerID: 151
     mosaicPosition: {x: 50, y: 211}
   - name: Layer 9
     spriteName: Layer 9
     isGroup: 0
-    parentIndex: -1
+    parentIndex: 1
     spriteID: cfb667efd80b0de4fb6a67d4d8abf278
     layerID: 149
     mosaicPosition: {x: 95, y: 89}
   - name: Layer 8
     spriteName: Layer 8
     isGroup: 0
-    parentIndex: -1
+    parentIndex: 1
     spriteID: 3fbfa2ec749adf14ea921290c957cdb1
     layerID: 147
     mosaicPosition: {x: 4, y: 4}
   - name: Layer 5
     spriteName: Layer 5
     isGroup: 0
-    parentIndex: -1
+    parentIndex: 1
     spriteID: b39f9dba4f5f3da44926465ffb3c634e
     layerID: 141
     mosaicPosition: {x: 225, y: 4}
   - name: Layer 17
     spriteName: Layer 17
     isGroup: 0
-    parentIndex: -1
+    parentIndex: 1
     spriteID: 96a669336dae5774386abc3db0c23c1a
     layerID: 165
     mosaicPosition: {x: 50, y: 89}
   - name: Layer 4
     spriteName: Layer 4
     isGroup: 0
-    parentIndex: -1
+    parentIndex: 1
     spriteID: c3a9a29ad06143d4aa2e9205092347eb
     layerID: 138
     mosaicPosition: {x: 95, y: 150}
   - name: Layer 3
     spriteName: Layer 3
     isGroup: 0
-    parentIndex: -1
+    parentIndex: 1
     spriteID: ef6549a39539acc42a5e7ecbe4d56fd1
     layerID: 137
     mosaicPosition: {x: 95, y: 174}
   - name: Layer 11
     spriteName: Layer 11
     isGroup: 0
-    parentIndex: -1
+    parentIndex: 1
     spriteID: 8dc377ae4c0e9fe4aa409401c499c6ce
     layerID: 153
     mosaicPosition: {x: 93, y: 4}
   - name: Rounded Rectangle 6
     spriteName: Rounded Rectangle 6
     isGroup: 0
-    parentIndex: -1
+    parentIndex: 1
     spriteID: 830aaef6fa5513b419e6d0d36fbd3b63
     layerID: 134
     mosaicPosition: {x: 4, y: 208}
@@ -6335,4 +6371,7 @@ ScriptedImporter:
   textureAssetName: Enemy 02 Texture
   prefabAssetName: Enemy 02 Prefab
   spriteLibAssetName: Enemy 02 Sprite Lib
-  secondarySpriteTextures: []
+  secondarySpriteTextures:
+  - name: _EnemyEmission
+    texture: {fileID: -5135010657881603254, guid: a8bce00aa5ec416469c03afd6276709d,
+      type: 3}

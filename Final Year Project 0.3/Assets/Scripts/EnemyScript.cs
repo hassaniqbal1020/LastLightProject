@@ -17,6 +17,8 @@ public class EnemyScript : MonoBehaviour
     public float WallRange; // Radius of wall collider
     public float hurtTimer; // Timer for when enemy is hurt
     public float floorTimer;
+    public float deathTimer;
+
 
     [SerializeField] private bool EnemyFacingRight; // Direction the enemy is facing
     public bool canAttack; // Whether enemy can attack or not
@@ -48,6 +50,8 @@ public class EnemyScript : MonoBehaviour
 
     public Animator enemyAnim;
 
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -59,7 +63,7 @@ public class EnemyScript : MonoBehaviour
         canRun = true;
         hurtTimer = 1f;
         floorTimer = 0.2f;
-
+        deathTimer = 1f;
 
     }
 
@@ -193,7 +197,8 @@ public class EnemyScript : MonoBehaviour
 
         if(gameObject.tag == ("EnemyAttack") && isFloor && gameObject.tag != "EnemyStun") // If within an attack state and on the floor
         {
-            GetComponent<SpriteRenderer>().color = Color.red; // Change the colour
+            //GetComponent<SpriteRenderer>().color = Color.red; // Change the colour
+            GetComponent<Dissolver>().isAttack = true;
 
             if(playerHitBox != null) // If player is within hit box and enemy is able to attack, then enemy will attack
             {
@@ -219,8 +224,10 @@ public class EnemyScript : MonoBehaviour
         else
         {
             GetComponent<SpriteRenderer>().color = Color.blue; // If enemy is not in attack state then return to original colour
+            GetComponent<Dissolver>().isAttack = false;
+
         }
-        
+
     }
 
     void EnemyPath()
@@ -350,9 +357,13 @@ public class EnemyScript : MonoBehaviour
     void Die()
     {
         //die
-        gameObject.SetActive(false);
+        GetComponent<Dissolver>().isDisolving = true;
+        deathTimer -= Time.deltaTime;
 
-
+        if(deathTimer <= 0)
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     public void Flip(bool enableFlip) // Change direction

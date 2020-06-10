@@ -17942,4 +17942,7 @@ ScriptedImporter:
   textureAssetName: Character Skeleton04 Texture
   prefabAssetName: Character Skeleton04 Prefab
   spriteLibAssetName: Character Skeleton04 Sprite Lib
-  secondarySpriteTextures: []
+  secondarySpriteTextures:
+  - name: _Emission01
+    texture: {fileID: -5262174954824018643, guid: fcdc80be091b467419e6e502f75101c5,
+      type: 3}

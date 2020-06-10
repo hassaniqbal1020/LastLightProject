@@ -23,7 +23,6 @@ public class enemyAttackFunction : MonoBehaviour
         EnemyhitForce = 5;
 
         attack = true;
-
     }
 
     void enemyAttack()

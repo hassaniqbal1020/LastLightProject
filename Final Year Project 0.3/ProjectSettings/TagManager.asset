@@ -80,3 +80,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Player
+    uniqueID: 137835725
+    locked: 0
+  - name: Floor
+    uniqueID: 1434137103
+    locked: 0
+  - name: Wall
+    uniqueID: 2508872533
+    locked: 0
+  - name: Background
+    uniqueID: 2037839347
+    locked: 0
