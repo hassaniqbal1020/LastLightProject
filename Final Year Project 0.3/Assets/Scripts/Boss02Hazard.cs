@@ -35,7 +35,7 @@ public class Boss02Hazard : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
+    void FixedUpdate()
     {
         rb.velocity = transform.up * Speed;
 

@@ -83,7 +83,10 @@ TextureImporter:
     indices: 
     edges: []
     weights: []
-    secondaryTextures: []
+    secondaryTextures:
+    - texture: {fileID: -4870938997238827324, guid: c86c2d42dc9e5f34e81dab3cd956c37c,
+        type: 3}
+      name: _FallingHazard
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

@@ -107,7 +107,10 @@ TextureImporter:
     indices: 
     edges: []
     weights: []
-    secondaryTextures: []
+    secondaryTextures:
+    - texture: {fileID: 302787519059216281, guid: 853a4ade164ba3a4bbb234b934bf4e4e,
+        type: 3}
+      name: _Spike
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

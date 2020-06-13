@@ -107,7 +107,10 @@ TextureImporter:
     indices: 
     edges: []
     weights: []
-    secondaryTextures: []
+    secondaryTextures:
+    - texture: {fileID: -6138835827959834746, guid: 9c9a2b844ccab8a40978d97bd2d081e8,
+        type: 3}
+      name: _OffPlatformBW
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

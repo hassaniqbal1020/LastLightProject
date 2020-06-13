@@ -43,6 +43,7 @@ TagManager:
   - BossSpike
   - FinalBoss
   - Alignment
+  - WalkTut
   layers:
   - Default
   - TransparentFX
@@ -77,11 +78,23 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 2037839347
+    locked: 0
+  - name: Enemy
+    uniqueID: 98710573
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
   - name: Player
     uniqueID: 137835725
+    locked: 0
+  - name: Particles
+    uniqueID: 1268161343
+    locked: 0
+  - name: Spike
+    uniqueID: 2582495303
     locked: 0
   - name: Floor
     uniqueID: 1434137103
@@ -89,6 +102,6 @@ TagManager:
   - name: Wall
     uniqueID: 2508872533
     locked: 0
-  - name: Background
-    uniqueID: 2037839347
+  - name: FakeWall
+    uniqueID: 2081409329
     locked: 0

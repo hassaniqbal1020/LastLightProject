@@ -22,7 +22,7 @@ public class Boss01 : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        BossHP = 500f;
+        BossHP = 400f;
         pRef = GameObject.FindGameObjectWithTag("Player");
         animTimer = 1.5f;
         animPaused = false;

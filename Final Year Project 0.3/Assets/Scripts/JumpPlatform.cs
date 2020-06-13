@@ -11,9 +11,12 @@ public class JumpPlatform : MonoBehaviour
     public Sprite OnSprite;
     public Sprite OffSprite;
 
+    public SpriteRenderer Renderer;
+
     // Start is called before the first frame update
     void Start()
     {
+        Renderer = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -32,11 +35,15 @@ public class JumpPlatform : MonoBehaviour
         {
             gameObject.GetComponent<BoxCollider2D>().isTrigger = false;
             gameObject.GetComponent<SpriteRenderer>().sprite = OnSprite;
+            gameObject.GetComponent<SpriteRenderer>().material.SetColor("_PlatformColour", Renderer.material.color = new Color(0, 255, 214, 0) * 0.01f);
 
-        }else if (!on)
+
+        }
+        else if (!on)
         {
             gameObject.GetComponent<BoxCollider2D>().isTrigger = true;
-            gameObject.GetComponent<SpriteRenderer>().sprite = OffSprite;
+            //gameObject.GetComponent<SpriteRenderer>().sprite = OffSprite;
+            gameObject.GetComponent<SpriteRenderer>().material.SetColor("_PlatformColour", Renderer.material.color = new Color(0, 255, 214, 0) * -0.0001f);
 
 
         }

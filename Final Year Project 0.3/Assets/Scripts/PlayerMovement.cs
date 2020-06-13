@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour
     bool jump = false;
     bool dash = false;
     bool onPlatform = false;
+    bool walkTutOn;
     public bool hitByEnemy = false;
     public bool rPickup;
     public bool mPickup;
@@ -86,7 +87,6 @@ public class PlayerMovement : MonoBehaviour
         BossHPBarRef.SetActive(false);
         Boss01.SetActive(false);
         posTimer = 0.1f;
-
     }
 
     // Update is called once per frame
@@ -97,7 +97,17 @@ public class PlayerMovement : MonoBehaviour
         BossUI = GameObject.FindGameObjectWithTag("BossUI").transform.GetChild(0).gameObject;
         wayPointPlayer = GameObject.FindGameObjectWithTag("WayPoint");
 
-        if(posTimer > 0)
+        if (walkTutOn)
+        {
+            joyStickTut.enabled = true;
+
+        }else if (!walkTutOn)
+        {
+            joyStickTut.enabled = false;
+
+        }
+
+        if (posTimer > 0)
         {
             posTimer -= Time.deltaTime;
         }
@@ -172,7 +182,6 @@ public class PlayerMovement : MonoBehaviour
 
             if (horizontal > 0 && controller.Grounded || horizontal < 0 && controller.Grounded)
             {
-                joyStickTut.enabled = false;
                 playerAnim.SetBool("isRunning", true);
 
 
@@ -376,6 +385,20 @@ public class PlayerMovement : MonoBehaviour
             visible = true;
 
 
+        }
+
+
+        if (collision.CompareTag("WalkTut"))
+        {
+            walkTutOn = false;
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.CompareTag("WalkTut"))
+        {
+            walkTutOn = true;
         }
     }
 

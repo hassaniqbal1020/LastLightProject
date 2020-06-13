@@ -9,13 +9,11 @@ public class AttackTut : MonoBehaviour
     bool enable;
     bool enableB;
     public Image Bbutton;
-    public Text useWeapon;
 
     // Start is called before the first frame update
     void Start()
     {
         Bbutton.enabled = false;
-        useWeapon.enabled = false;
         enable = false;
         enableB = false;
 
@@ -33,13 +31,11 @@ public class AttackTut : MonoBehaviour
         if (enableB)
         {
             Bbutton.enabled = true;
-            useWeapon.enabled = true;
 
 
         }else if (!enable)
         {
             Bbutton.enabled = false;
-            useWeapon.enabled = false;
 
         }
     }

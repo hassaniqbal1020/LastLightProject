@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2189350984930631875}
   - component: {fileID: 8870172079748504802}
   m_Layer: 13
-  m_Name: Spike
+  m_Name: Spike 1
   m_TagString: BossSpike
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -51,7 +51,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 64dd65c1c6789c0429a09b6cf79cb3c6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

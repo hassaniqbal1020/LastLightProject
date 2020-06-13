@@ -63,7 +63,7 @@ public class EnemyScript : MonoBehaviour
         canRun = true;
         hurtTimer = 1f;
         floorTimer = 0.2f;
-        deathTimer = 1f;
+        deathTimer = 0.7f;
 
     }
 
@@ -120,11 +120,6 @@ public class EnemyScript : MonoBehaviour
 
         if (currentHealth <= 0)
         {
-
-            if (pRef.LifeRadial.fillAmount < 1)
-            {
-                pRef.LifeRadial.fillAmount += 0.1f;
-            }
 
             Die();
 
@@ -362,6 +357,12 @@ public class EnemyScript : MonoBehaviour
 
         if(deathTimer <= 0)
         {
+
+            if (pRef.LifeRadial.fillAmount < 1)
+            {
+                pRef.LifeRadial.fillAmount += 0.1f;
+            }
+
             gameObject.SetActive(false);
         }
     }

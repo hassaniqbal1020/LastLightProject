@@ -16,7 +16,7 @@ public class DashTut : MonoBehaviour
         enable = false;
         Enablebutton = false;
         DashButton.enabled = false;
-        Lstick.enabled = false;
+
 
     }
 
@@ -32,14 +32,14 @@ public class DashTut : MonoBehaviour
         if (Enablebutton)
         {
             DashButton.enabled = true;
-            Lstick.enabled = true;
+
 
         }
 
         if (!Enablebutton)
         {
             DashButton.enabled = false;
-            Lstick.enabled = false;
+
 
         }
     }

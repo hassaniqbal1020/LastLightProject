@@ -13,7 +13,7 @@ public class Interact : MonoBehaviour
     void Start()
     {
         Ybutton.enabled = false;
-        InteractText.enabled = false;
+
         enable = false;
 
     }
@@ -24,7 +24,7 @@ public class Interact : MonoBehaviour
         if (enable)
         {
             Ybutton.enabled = true;
-            InteractText.enabled = true;
+
 
             if (Input.GetButtonDown("Xbox_Y"))
             {
@@ -36,7 +36,7 @@ public class Interact : MonoBehaviour
         if (!enable)
         {
             Ybutton.enabled = false;
-            InteractText.enabled = false;
+
         }
     }
 
