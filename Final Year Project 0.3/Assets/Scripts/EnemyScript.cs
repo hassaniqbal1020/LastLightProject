@@ -38,7 +38,7 @@ public class EnemyScript : MonoBehaviour
 
     public PlayerMovement pRef; // Referance for player movement script
 
-    public int maxHealth = 200; // Enemy health
+    public int maxHealth = 125; // Enemy health
     public int currentHealth; // Enemy current health
 
     public LayerMask playerMask; // Layer for collider and raycast detection
@@ -64,6 +64,7 @@ public class EnemyScript : MonoBehaviour
         hurtTimer = 1f;
         floorTimer = 0.2f;
         deathTimer = 0.7f;
+        
 
     }
 

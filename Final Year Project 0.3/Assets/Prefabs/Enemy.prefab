@@ -541,7 +541,7 @@ MonoBehaviour:
   GroundR: {fileID: 4978938079400396300}
   WallCheck: {fileID: 4978938080380336503}
   pRef: {fileID: 0}
-  maxHealth: 200
+  maxHealth: 125
   currentHealth: 0
   playerMask:
     serializedVersion: 2
