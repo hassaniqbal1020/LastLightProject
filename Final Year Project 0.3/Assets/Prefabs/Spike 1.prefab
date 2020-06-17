@@ -96,7 +96,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dead: 0
-  deathEffect: {fileID: 439663188314491117, guid: 1b983ccdf88a722469110ea40dc1ca83,
+  deathEffect: {fileID: 439663188314491117, guid: 6cc7f55133c73bc4e84c3699f097184a,
     type: 3}
 --- !u!61 &8870172079748504802
 BoxCollider2D:

@@ -16,7 +16,7 @@ public class EnemyStates : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(GetComponent<EnemyScript>().maxHealth > 0) // Enabling enemy
+        if(GetComponent<EnemyScript>().currentHealth > 0) // Enabling enemy
         {
             EnemyState = "Active";
         }

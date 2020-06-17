@@ -8,6 +8,7 @@ public class Pickup : MonoBehaviour
 {
     public Main mRef;
     public Text WeaponText;
+    public GameObject Effect;
     bool enable;
     bool collected;
 
@@ -27,7 +28,7 @@ public class Pickup : MonoBehaviour
             mRef.hasWeapons = true;
             WeaponText.enabled = true;
             collected = true;
-
+            Instantiate(Effect, transform.position, transform.rotation);
         }
 
         if (mRef.hasWeapons)

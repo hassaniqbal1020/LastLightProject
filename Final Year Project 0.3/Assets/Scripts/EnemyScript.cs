@@ -190,38 +190,42 @@ public class EnemyScript : MonoBehaviour
     {
         Collider2D playerHitBox = Physics2D.OverlapCircle(attackPoint.position, attackRange, playerMask); // Setting enemy hit box
 
-        if(gameObject.tag == ("EnemyAttack") && isFloor && gameObject.tag != "EnemyStun") // If within an attack state and on the floor
+        if(currentHealth > 0)
         {
-            //GetComponent<SpriteRenderer>().color = Color.red; // Change the colour
-            GetComponent<Dissolver>().isAttack = true;
-
-            if(playerHitBox != null) // If player is within hit box and enemy is able to attack, then enemy will attack
+            if (gameObject.tag == ("EnemyAttack") && isFloor && gameObject.tag != "EnemyStun") // If within an attack state and on the floor
             {
-                enemyNear = true;
+                //GetComponent<SpriteRenderer>().color = Color.red; // Change the colour
+                GetComponent<Dissolver>().isAttack = true;
 
-                if (canAttack)
-                {                 
-                    enemyAnim.SetTrigger("isAttack"); // Play enemy attack animation
-                    canAttack = false;
+                if (playerHitBox != null) // If player is within hit box and enemy is able to attack, then enemy will attack
+                {
+                    enemyNear = true;
+
+                    if (canAttack)
+                    {
+                        enemyAnim.SetTrigger("isAttack"); // Play enemy attack animation
+                        canAttack = false;
+                    }
+
                 }
-                
+
+                if (playerHitBox == null)
+                {
+                    enemyNear = false;
+
+                }
+
+
+
             }
-            
-            if(playerHitBox == null)
+            else
             {
-                enemyNear = false;
+                GetComponent<SpriteRenderer>().color = Color.blue; // If enemy is not in attack state then return to original colour
+                GetComponent<Dissolver>().isAttack = false;
 
             }
-
-
-
         }
-        else
-        {
-            GetComponent<SpriteRenderer>().color = Color.blue; // If enemy is not in attack state then return to original colour
-            GetComponent<Dissolver>().isAttack = false;
-
-        }
+        
 
     }
 
@@ -354,6 +358,8 @@ public class EnemyScript : MonoBehaviour
         //die
         GetComponent<Dissolver>().isDisolving = true;
         deathTimer -= Time.deltaTime;
+        enemyAnim.speed = 0;
+        
 
         if(deathTimer <= 0)
         {

@@ -64,6 +64,8 @@ public class PlayerMovement : MonoBehaviour
 
     public float posTimer;
 
+    public Transform dashInst;
+
 
     // Start is called before the first frame update
     void Start()
@@ -225,7 +227,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 dash = true;
                 DashState = "Dash";
-                //Instantiate(dashEffect, transform.position, transform.rotation);
+                Instantiate(dashEffect, dashInst.position, dashInst.rotation);
 
             }
 

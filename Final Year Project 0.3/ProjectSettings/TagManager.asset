@@ -87,11 +87,14 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Tutorial
+    uniqueID: 3703625573
+    locked: 0
+  - name: Diamond
+    uniqueID: 1544949447
+    locked: 0
   - name: Player
     uniqueID: 137835725
-    locked: 0
-  - name: Particles
-    uniqueID: 1268161343
     locked: 0
   - name: Spike
     uniqueID: 2582495303
@@ -104,4 +107,16 @@ TagManager:
     locked: 0
   - name: FakeWall
     uniqueID: 2081409329
+    locked: 0
+  - name: Hook
+    uniqueID: 2638586315
+    locked: 0
+  - name: Particles
+    uniqueID: 1268161343
+    locked: 0
+  - name: HomingEnemy
+    uniqueID: 2866069539
+    locked: 0
+  - name: Boss
+    uniqueID: 3256352361
     locked: 0

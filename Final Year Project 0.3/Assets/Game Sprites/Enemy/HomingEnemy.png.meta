@@ -107,7 +107,10 @@ TextureImporter:
     indices: 
     edges: []
     weights: []
-    secondaryTextures: []
+    secondaryTextures:
+    - texture: {fileID: -1948352851410191444, guid: 8aa0c66be35db864d9d51ed8018fc073,
+        type: 3}
+      name: _HomingBW
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

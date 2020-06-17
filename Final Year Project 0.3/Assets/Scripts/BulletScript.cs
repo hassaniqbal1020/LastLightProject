@@ -96,7 +96,7 @@ public class BulletScript : MonoBehaviour
 
         if (Boss02Hit != null)
         {
-            Boss02Hit.GetComponentInParent<FinalBoss>().TakeDamage(BulletDamage * 2);
+            Boss02Hit.GetComponentInParent<FinalBoss>().TakeDamage(BulletDamage * 3);
             Instantiate(hitEffect, transform.position, transform.rotation);
             if (Boss02Hit.GetComponentInParent<FinalBoss>().isIdle)
             {

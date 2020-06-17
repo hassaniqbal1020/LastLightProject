@@ -31,10 +31,12 @@ public class Dissolver : MonoBehaviour
             {
                 fade -= MinusFade;
                 material.GetComponent<SpriteRenderer>().material.SetFloat("_Fade", fade);
+                gameObject.layer = default;
 
                 if (fade <= 0)
                 {
                     fade = 0f;
+                    gameObject.GetComponent<EdgeCollider2D>().enabled = false;
                     isDisolving = false;
 
                 }

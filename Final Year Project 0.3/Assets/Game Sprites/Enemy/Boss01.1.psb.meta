@@ -14066,4 +14066,7 @@ ScriptedImporter:
   textureAssetName: Boss01.1 Texture
   prefabAssetName: Boss01.1 Prefab
   spriteLibAssetName: Boss01.1 Sprite Lib
-  secondarySpriteTextures: []
+  secondarySpriteTextures:
+  - name: _Boss01BW
+    texture: {fileID: 1530007739988351340, guid: a7126eec3e011ed4893e64abe6df2ccf,
+      type: 3}
